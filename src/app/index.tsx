@@ -12,8 +12,13 @@ const index = () => {
       />
       <Text className='text-4xl font-bold mt-20 text-center'>Screen Buttons</Text>
       <Link href="screens/welcome" asChild>
-        <Pressable className='bg-blue-500 p-4 rounded-lg m-10'>
+        <Pressable className='bg-blue-500 p-4 rounded-lg ml-10 mr-10  mt-5'>
           <Text className='text-white text-center'>Open Welcome Screen</Text>
+        </Pressable>
+      </Link>
+      <Link href="screens/dashboard" asChild>
+        <Pressable className='bg-green-500 p-4 rounded-lg ml-10 mr-10 mt-3'>
+          <Text className='text-white text-center'>Open Dashboard Screen</Text>
         </Pressable>
       </Link>
     </View>
