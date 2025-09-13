@@ -18,33 +18,37 @@ const _layout = () => {
         name="Home"
         options={{
           title: 'Home',
+          tabBarLabelStyle: { fontSize: 12 },
           headerShown: false,
           tabBarIcon: ({ focused }) =>
-            focused ? <HomeBold width={24} height={24} /> : <HomeOutline width={24} height={24} />,
+            focused ? <HomeBold width={26} height={26} /> : <HomeOutline width={24} height={24} />,
         }}
       />
       <Tabs.Screen
         name="Chat"
         options={{
           title: 'Chat',
+          tabBarLabelStyle: { fontSize: 12 },
           tabBarIcon: ({ focused }) =>
-            focused ? <ChatBold width={24} height={24} /> : <ChatOutline width={24} height={24} />,
+            focused ? <ChatBold width={26} height={26} /> : <ChatOutline width={24} height={24} />,
         }}
       />
       <Tabs.Screen
         name="Notifications"
         options={{
           title: 'Notifications',
+          tabBarLabelStyle: { fontSize: 12 },
           tabBarIcon: ({ focused }) =>
-            focused ? <NotificationsBold width={24} height={24} /> : <NotificationsOutline width={24} height={24} />,
+            focused ? <NotificationsBold width={26} height={26} /> : <NotificationsOutline width={24} height={24} />,
         }}
       />
       <Tabs.Screen
         name="Profile"
         options={{
           title: 'Profile',
+          tabBarLabelStyle: { fontSize: 12 },
           tabBarIcon: ({ focused }) =>
-            focused ? <ProfileBold width={24} height={24} /> : <ProfileOutline width={24} height={24} />,
+            focused ? <ProfileBold width={26} height={26} /> : <ProfileOutline width={24} height={24} />,
         }}
       />
     </Tabs>
