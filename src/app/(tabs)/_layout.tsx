@@ -18,37 +18,53 @@ const _layout = () => {
         name="Home"
         options={{
           title: 'Home',
-          tabBarLabelStyle: { fontSize: 12 },
+          tabBarLabelStyle: { fontSize: 12, marginTop: 7 },
           headerShown: false,
-          tabBarIcon: ({ focused }) =>
-            focused ? <HomeBold width={26} height={26} /> : <HomeOutline width={24} height={24} />,
+          tabBarIcon: ({ focused }) => (
+            <View className="items-center">
+              <View className={focused ? "w-32 h-1 rounded bg-blue-600 mb-2" : "w-32 h-1 rounded bg-transparent mb-2"} />
+              {focused ? <HomeBold width={26} height={26} /> : <HomeOutline width={24} height={24}/>}
+            </View>
+          ),
         }}
       />
       <Tabs.Screen
         name="Chat"
         options={{
           title: 'Chat',
-          tabBarLabelStyle: { fontSize: 12 },
-          tabBarIcon: ({ focused }) =>
-            focused ? <ChatBold width={26} height={26} /> : <ChatOutline width={24} height={24} />,
+          tabBarLabelStyle: { fontSize: 12, marginTop: 7 },
+          tabBarIcon: ({ focused }) => (
+            <View className="items-center">
+              <View className={focused ? "w-32 h-1 rounded bg-blue-600 mb-2" : "w-32 h-1 rounded bg-transparent mb-2"} />
+              {focused ? <ChatBold width={26} height={26} /> : <ChatOutline width={24} height={24} />}
+            </View>
+          ),
         }}
       />
       <Tabs.Screen
         name="Notifications"
         options={{
           title: 'Notifications',
-          tabBarLabelStyle: { fontSize: 12 },
-          tabBarIcon: ({ focused }) =>
-            focused ? <NotificationsBold width={26} height={26} /> : <NotificationsOutline width={24} height={24} />,
+          tabBarLabelStyle: { fontSize: 12, marginTop: 7 },
+          tabBarIcon: ({ focused }) => (
+            <View className="items-center">
+              <View className={focused ? "w-32 h-1 rounded bg-blue-600 mb-2" : "w-32 h-1 rounded bg-transparent mb-2"} />
+              {focused ? <NotificationsBold width={26} height={26} /> : <NotificationsOutline width={24} height={24} />}
+            </View>
+          ),
         }}
       />
       <Tabs.Screen
         name="Profile"
         options={{
           title: 'Profile',
-          tabBarLabelStyle: { fontSize: 12 },
-          tabBarIcon: ({ focused }) =>
-            focused ? <ProfileBold width={26} height={26} /> : <ProfileOutline width={24} height={24} />,
+          tabBarLabelStyle: { fontSize: 12, marginTop: 7 },
+          tabBarIcon: ({ focused }) => (
+            <View className="items-center">
+              <View className={focused ? "w-32 h-1 rounded bg-blue-600 mb-2" : "w-32 h-1 rounded bg-transparent mb-2"} />
+              {focused ? <ProfileBold width={26} height={26} /> : <ProfileOutline width={24} height={24} />}
+            </View>
+          ),
         }}
       />
     </Tabs>
