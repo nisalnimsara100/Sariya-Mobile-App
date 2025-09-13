@@ -1,8 +1,6 @@
 import { View, Text, TextInput, Image, Pressable, KeyboardAvoidingView, Platform, ScrollView } from 'react-native'
 import '../../../../global.css'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import AntDesign from '@expo/vector-icons/AntDesign'
-import FontAwesome from '@expo/vector-icons/FontAwesome'
 
 // Color tokens from the provided palette
 const COLORS = {
@@ -23,10 +21,10 @@ const COLORS = {
 	neutral500: '#4B4C50',
 }
 
-const SocialButton = ({ icon, label, className = '' }: { icon: any; label: string; className?: string }) => (
-	<Pressable className={`rounded-[9px] border border-[#BCD1FF] bg-white px-4 flex-row items-center ${className}`}>
-		<View className="w-6 h-6 items-center justify-center">{icon}</View>
-		<Text className="flex-1 text-center text-[#A1A1A1] font-poppinsMedium">{label}</Text>
+const SocialButton = ({ source, label, className = '', iconClassName = 'mr-4' }: { source: any; label: string; className?: string; iconClassName?: string }) => (
+	<Pressable className={`rounded-[9px] border border-[#BCD1FF] bg-white flex-row items-center justify-center ${className}`}>
+		<Image source={source} className={`w-4 h-4 ${iconClassName}`} resizeMode="contain" />
+		<Text className="text-[#959595] text-[13px] leading-[20px] font-poppinsSemiBold">{label}</Text>
 	</Pressable>
 )
 
@@ -44,23 +42,23 @@ export default function LoginScreen() {
 									<Image
 										source={require('~/app/assets/login-top.png')}
 										resizeMode="contain"
-										className="self-center w-[215px] h-[210px] mt-[116px]"
+										className="self-center w-[240px] h-[235px] mt-[90px]"
 									/>
 
 						{/* Form */}
-									<View className="mt-[64px] items-center">
-										<Text className="self-start text-[16px] leading-[32px] text-[#23252F] font-poppinsSemiBold">Enter Your Mobile Number<Text>*</Text></Text>
-										<View className="mt-[12px] w-[310px] h-[48px] rounded-[9px] border border-[#BCD1FF] bg-white justify-center">
+												<View className="mt-[36px] self-center w-[310px]">
+													<Text className="self-start text-[16px] leading-[32px] text-[#23252F] font-poppinsSemiBold">Enter Your Mobile Number<Text>*</Text></Text>
+													<View className="mt-[12px] w-full h-[48px] rounded-[9px] border border-[#BCD1FF] bg-white justify-center">
 								<TextInput
 									keyboardType="phone-pad"
 									placeholder="+94 70 XXX XXXX"
 									placeholderTextColor="#A1A1A1"
-												className="px-4 text-[#23252F] font-poppinsMedium"
+															className="px-4 text-[#23252F] font-poppinsMedium"
 								/>
 							</View>
 
 							<Pressable
-											className="mt-[20px] w-[310px] h-[48px] rounded-[9px] justify-center"
+														className="mt-[20px] w-[300px] self-center h-[48px] rounded-[9px] justify-center"
 								style={{ backgroundColor: COLORS.primary }}
 								onPress={() => {}}
 							>
@@ -69,26 +67,27 @@ export default function LoginScreen() {
 						</View>
 
 						{/* Divider text */}
-									<View className="mt-[27px] items-center">
+									<View className="mt-[24px] mb-[8px] items-center">
 										<Text className="text-[14px] leading-[22px] text-[#23252F] font-poppinsSemiBold">Or Sign Up With</Text>
 						</View>
 
 									<View className="items-center">
 										<SocialButton
-											icon={<AntDesign name="google" size={18} color="#DB4437" />}
+											source={require('~/app/assets/g.png')}
 											label="Login With Google"
-											className="mt-[32px] w-[310px] h-[48px]"
+											className="mt-[24px] w-[300px] h-[48px]"
+											iconClassName="mr-5"
 										/>
 										<SocialButton
-											icon={<FontAwesome name="facebook" size={18} color="#1877F2" />}
+											source={require('~/app/assets/f.png')}
 											label="Login With Facebook"
-											className="mt-[20px] w-[310px] h-[48px]"
+											className="mt-[16px] w-[300px] h-[48px]"
 										/>
 						</View>
 
 						{/* Footer link */}
-									<Pressable className="mt-[36px] items-center" onPress={() => {}}>
-										<Text className="text-[#266FEF] underline font-poppinsMedium">Register New User</Text>
+									<Pressable className="mt-[40px] items-center" onPress={() => {}}>
+										<Text className="text-black underline text-[14px] leading-[14px] font-poppinsSemiBold">Register New User</Text>
 						</Pressable>
 					</ScrollView>
 				</KeyboardAvoidingView>
