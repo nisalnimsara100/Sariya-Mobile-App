@@ -46,7 +46,7 @@ export default function LoginScreen() {
 									/>
 
 						{/* Form */}
-												<View className="mt-[36px] self-center w-[310px]">
+												<View className="mt-[36px] self-center w-[300px]">
 													<Text className="self-start text-[16px] leading-[32px] text-[#23252F] font-poppinsSemiBold">Enter Your Mobile Number<Text>*</Text></Text>
 													<View className="mt-[12px] w-full h-[48px] rounded-[9px] border border-[#BCD1FF] bg-white justify-center">
 								<TextInput
