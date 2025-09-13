@@ -1,6 +1,7 @@
 import { View, Text, TextInput, Image, Pressable, KeyboardAvoidingView, Platform, ScrollView } from 'react-native'
 import '../../../../global.css'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { Link } from 'expo-router'
 
 // Color tokens from the provided palette
 const COLORS = {
@@ -86,9 +87,11 @@ export default function LoginScreen() {
 						</View>
 
 						{/* Footer link */}
-									<Pressable className="mt-[40px] items-center" onPress={() => {}}>
-										<Text className="text-black underline text-[14px] leading-[14px] font-poppinsSemiBold">Register New User</Text>
-						</Pressable>
+									<Link href="/screens/register" asChild>
+										<Pressable className="mt-[40px] items-center">
+											<Text className="text-black underline text-[14px] leading-[14px] font-poppinsSemiBold">Register New User</Text>
+										</Pressable>
+									</Link>
 					</ScrollView>
 				</KeyboardAvoidingView>
 			</SafeAreaView>
