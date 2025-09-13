@@ -1,6 +1,5 @@
 import { useFonts } from 'expo-font'
-import { SplashScreen, Stack } from 'expo-router'
-import { useEffect } from 'react'
+import { Stack } from 'expo-router'
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -11,24 +10,19 @@ export default function RootLayout() {
     PoppinsLight: require('./assets/fonts/Poppins-Light.ttf'),
   })
 
-  useEffect(() => {
-    if (!fontsLoaded) {
-      SplashScreen.preventAutoHideAsync()
-    } else {
-      SplashScreen.hideAsync()
-    }
-  }, [fontsLoaded])
-
   if (!fontsLoaded) return null
 
   return (
     <Stack
+      initialRouteName="screens/welcome"
       screenOptions={{
         headerShown: false,                
         contentStyle: { backgroundColor: '#ffffff' }, 
       }}
     >
       <Stack.Screen name="(tabs)" />
+      <Stack.Screen name="screens/welcome" />
+      <Stack.Screen name="screens/login" />
     </Stack>
   )
 }
