@@ -1,6 +1,6 @@
 {
   "expo": {
-    "scheme" : "sariya",
+    "scheme": "sariya",
     "name": "Sariya",
     "slug": "Sariya",
     "version": "1.0.0",
@@ -11,7 +11,8 @@
       "tsconfigPaths": true
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "expo-font"
     ],
     "orientation": "portrait",
     "icon": "./assets/icon.png",
