@@ -21,6 +21,11 @@ const index = () => {
           <Text className='text-white text-center'>Open Dashboard Screen</Text>
         </Pressable>
       </Link>
+      <Link href="(tabs)" asChild>
+        <Pressable className='bg-purple-500 p-4 rounded-lg ml-10 mr-10 mt-3'>
+          <Text className='text-white text-center'>Open Tabs Screen</Text>
+        </Pressable>
+      </Link>
     </View>
   )
 }
