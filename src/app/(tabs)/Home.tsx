@@ -1,13 +1,15 @@
 import { View, Text, Pressable, Image, Dimensions } from 'react-native';
 import { Link } from 'expo-router';
 import Swiper from 'react-native-swiper';
-
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import Bluebox from '../../../src/app/assets/icons/Bold/Mask group.svg';
 import Redbox from '../../../src/app/assets/icons/Bold/red box.svg';
 import Orangebox from '../../../src/app/assets/icons/Bold/orange box.svg';
 
 const { width } = Dimensions.get('window');
+const boxWidth = Math.min(width * 0.85, 307);
+const boxHeight = boxWidth * (225 / 307);
 
 const FeatureBox = ({
   svg: SvgComponent,
@@ -22,57 +24,45 @@ const FeatureBox = ({
 }) => {
   return (
     <View className="items-center">
-      <View className="w-[307px] h-[225px] relative rounded-3xl overflow-hidden">
-        
+      <View
+        style={{
+          width: boxWidth,
+          height: boxHeight,
+        }}
+        className="relative rounded-3xl overflow-hidden"
+      >
         <SvgComponent
           style={{
             position: 'absolute',
             top: 0,
             left: 0,
-            width: 307,
-            height: 225,
+            width: boxWidth,
+            height: boxHeight,
             zIndex: 0,
           }}
         />
-
-        
         <View
           style={{
             position: 'absolute',
             top: 0,
             left: 0,
-            width: 307,
-            height: 225,
+            width: boxWidth,
+            height: boxHeight,
             justifyContent: 'center',
             alignItems: 'center',
             padding: 20,
             zIndex: 1,
           }}
         >
-          
-          <View
-            style={{
-              width: 56,
-              height: 56,
-              borderRadius: 28,
-              backgroundColor: '#fff',
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginBottom: 10,
-            }}
-          >
+          <View className="w-14 h-14 rounded-full bg-white justify-center items-center mb-3">
             <Image
               source={icon}
               style={{ width: 32, height: 32, resizeMode: 'contain' }}
             />
           </View>
-
-          
           <Text className="text-white text-2xl font-poppinsMedium text-center mb-3">
             {title}
           </Text>
-
-          
           <View className="w-full px-3">
             {description.map((desc, idx) => (
               <Text
@@ -124,16 +114,19 @@ const IndexScreen = () => {
   ];
 
   return (
-    <View className="flex-1 bg-white justify-between py-4">
-      
-      <Image
-        source={require('../../../src/app/assets/icon.png')}
-        className="w-80 h-48 mx-auto mt-4"
-        resizeMode="contain"
-      />
+    <SafeAreaView className="flex-1 bg-white justify-between py-4">
+      <View className="items-center px-4">
+        <Image
+          source={require('../../../src/app/assets/icon.png')}
+          style={{
+            width: Math.min(width * 0.8, 320),
+            height: Math.min(width * 0.48, 180),
+          }}
+          resizeMode="contain"
+        />
+      </View>
 
-      
-      <View className="h-[245px]">
+      <View style={{ height: boxHeight + 20 }}>
         <Swiper
           loop={false}
           showsButtons={false}
@@ -141,13 +134,7 @@ const IndexScreen = () => {
           renderPagination={(index, total) => {
             const colors = ['#266FEF', '#266FEF', '#266FEF'];
             return (
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  marginTop: 10,
-                }}
-              >
+              <View className="flex-row justify-center mt-2">
                 {Array.from({ length: total }).map((_, i) => {
                   const isActive = i === index;
                   return (
@@ -180,28 +167,30 @@ const IndexScreen = () => {
         </Swiper>
       </View>
 
-      
       <View className="items-center px-6">
-        <Text className="text-center text-base font-poppinsRegulary text-gray-950 mb-2">
+        <Text className="text-center text-base font-poppinsRegulary text-gray-950 mb-1">
           Add and verify the driver’s mobile number to activate full app
           features. Use the button below to complete setup.
         </Text>
 
         <Image
           source={require('../../../src/app/assets/down.gif')}
-          className="w-72 h-16"
+          style={{
+            width: Math.min(width * 0.75, 280),
+            height: 70,
+          }}
           resizeMode="contain"
         />
 
         <Link href="screens/setup" asChild>
-          <Pressable className="bg-blue-500 p-4 rounded-xl mt-2 w-full">
+          <Pressable className="bg-blue-500 p-4 rounded-xl mt-5 w-full max-w-[320px]">
             <Text className="text-white text-center text-lg font-poppinsMedium">
               Complete The Setup
             </Text>
           </Pressable>
         </Link>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
