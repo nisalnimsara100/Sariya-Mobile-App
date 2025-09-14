@@ -1,7 +1,5 @@
-import { StyleSheet, Text, TouchableWithoutFeedback, View, Image, useWindowDimensions } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, TouchableWithoutFeedback, View, Image, useWindowDimensions, FlatList } from 'react-native'
 import Animated, { AnimatedRef, interpolateColor, SharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
-import { FlatList } from 'react-native-reanimated/lib/typescript/Animated';
 import { OnboardingData } from '~/data/data';
 
 type Props = {
@@ -40,6 +38,9 @@ const CustomButton = ({dataLength, flatlistIndex, flatlistRef, x}: Props) => {
     onPress={() => {
         if(flatlistIndex.value < dataLength - 1){
             flatlistRef.current?.scrollToIndex({index: flatlistIndex.value + 1})
+            console.log('====================================');
+            console.log(flatlistIndex);
+            console.log('====================================');
         } else {
             console.log("NAVIGATE TO NEXT SCREEN")
         }
