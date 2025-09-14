@@ -28,7 +28,7 @@ export default function RootLayout() {
         contentStyle: { backgroundColor: '#ffffff' }, 
       }}
     >
-      <Stack.Screen name="(tabs)" />
+      <Stack.Screen name="index" />
     </Stack>
   )
 }
