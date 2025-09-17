@@ -21,9 +21,9 @@ export default function RegisterScreen() {
 		<SafeAreaView className="flex-1 bg-white">
 			<KeyboardAvoidingView behavior={Platform.select({ ios: 'padding', android: undefined })} className="flex-1">
 				<ScrollView contentContainerStyle={{ paddingHorizontal: 24, paddingBottom: 24 }}>
-					{/* Back button */}
-					<Pressable onPress={() => router.back()} className="mt-4" hitSlop={10}>
-						<Text className="text-black text-2xl">←</Text>
+					{/* Back button (thick black) */}
+					<Pressable onPress={() => router.back()} accessibilityLabel="Go back" className="mt-4 w-10 h-10 items-start justify-center" hitSlop={12}>
+						<Text className="text-black" style={{ fontSize: 30, fontWeight: '800', lineHeight: 30 }}>←</Text>
 					</Pressable>
 
 					{/* Logo */}
@@ -32,13 +32,13 @@ export default function RegisterScreen() {
 					{/* Name */}
 					<View className="self-center w-[310px] mt-2">
 						<Text className="text-[16px] leading-[32px] font-poppinsMedium text-black">Name<Text>*</Text></Text>
-						<View className="mt-2 h-[48px] rounded-[9px] border" style={{ borderColor: BORDER }}>
+						<View className="mt-1 h-[48px] rounded-[9px] border" style={{ borderColor: BORDER }}>
 							<TextInput
 								value={name}
 								onChangeText={setName}
 								placeholder="Nisal Nimsara"
 								placeholderTextColor="#959595"
-								className="px-4 text-[16px] leading-[32px] font-poppinsRegulary"
+								className="px-4 text-[16px] leading-[32px] font-poppinsRegular"
 							/>
 						</View>
 					</View>
@@ -46,7 +46,7 @@ export default function RegisterScreen() {
 					{/* Email */}
 					<View className="self-center w-[310px] mt-3">
 						<Text className="text-[16px] leading-[32px] font-poppinsMedium text-black">Email<Text>*</Text></Text>
-						<View className="mt-2 h-[48px] rounded-[9px] border" style={{ borderColor: BORDER }}>
+						<View className="mt-1 h-[48px] rounded-[9px] border" style={{ borderColor: BORDER }}>
 							<TextInput
 								value={email}
 								onChangeText={setEmail}
@@ -54,7 +54,7 @@ export default function RegisterScreen() {
 								autoCapitalize="none"
 								placeholder="nisalnimsara2025@gmail.com"
 								placeholderTextColor="#959595"
-								className="px-4 text-[16px] leading-[32px] font-poppinsRegulary"
+								className="px-4 text-[16px] leading-[32px] font-poppinsRegular"
 							/>
 						</View>
 					</View>
@@ -62,14 +62,14 @@ export default function RegisterScreen() {
 					{/* Mobile Number */}
 					<View className="self-center w-[310px] mt-3">
 						<Text className="text-[16px] leading-[32px] font-poppinsMedium text-black">Mobile Number<Text>*</Text></Text>
-						<View className="mt-2 h-[48px] rounded-[9px] border" style={{ borderColor: BORDER }}>
+						<View className="mt-1 h-[48px] rounded-[9px] border" style={{ borderColor: BORDER }}>
 							<TextInput
 								value={mobile}
 								onChangeText={setMobile}
 								keyboardType="phone-pad"
 								placeholder="+94 70 XXX XXXX"
 								placeholderTextColor="#959595"
-								className="px-4 text-[16px] leading-[32px] tracking-[2px] font-poppinsRegulary"
+								className="px-4 text-[16px] leading-[32px] tracking-[2px] font-poppinsRegular"
 							/>
 						</View>
 					</View>
@@ -77,11 +77,11 @@ export default function RegisterScreen() {
 					{/* User Type */}
 					<View className="self-center w-[310px] mt-3">
 						<Text className="text-[16px] leading-[32px] font-poppinsMedium text-black">User Type<Text>*</Text></Text>
-						<Pressable onPress={() => setPickerOpen(true)} className="mt-2 h-[48px] rounded-[9px] border flex-row items-center justify-between px-4" style={{ borderColor: BORDER }}>
-							<Text className={`text-[16px] leading-[32px] ${userType ? 'text-black' : 'text-[#959595]'} font-poppinsRegulary`}>
+						<Pressable onPress={() => setPickerOpen(true)} className="mt-1 h-[48px] rounded-[9px] border flex-row items-center justify-between px-4" style={{ borderColor: BORDER }}>
+							<Text className={`text-[16px] leading-[32px] ${userType ? 'text-black' : 'text-[#959595]'} font-poppinsRegular`}>
 								{userType || 'Select User Type'}
 							</Text>
-							<Text className="text-black">⌄</Text>
+							<Text className="text-black text-[18px] -mt-[2px]">⌄</Text>
 						</Pressable>
 					</View>
 
