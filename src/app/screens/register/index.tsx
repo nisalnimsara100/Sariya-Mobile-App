@@ -21,7 +21,7 @@ export default function RegisterScreen() {
 	const [userType, setUserType] = React.useState('')
 	const [pickerOpen, setPickerOpen] = React.useState(false)
 
-	const userTypes = ['Student', 'Parent', 'Driver']
+	const userTypes = ['Student', 'Parent']
 
 	return (
 		<SafeAreaView className="flex-1 bg-white">
@@ -124,10 +124,15 @@ export default function RegisterScreen() {
 							right: Math.max(width * 0.075, 16)
 						}}
 					>
-						{userTypes.map((ut) => (
-							<TouchableOpacity key={ut} className="py-3" onPress={() => { setUserType(ut); setPickerOpen(false) }}>
-								<Text className="text-[16px] font-poppinsMedium">{ut}</Text>
-							</TouchableOpacity>
+						{userTypes.map((ut, index) => (
+							<React.Fragment key={ut}>
+								<TouchableOpacity className="py-3" onPress={() => { setUserType(ut); setPickerOpen(false) }}>
+									<Text className="text-[16px] font-poppinsMedium">{ut}</Text>
+								</TouchableOpacity>
+								{index === 0 && (
+									<View className="h-[1px] bg-gray-200 -mx-4 my-2" />
+								)}
+							</React.Fragment>
 						))}
 					</View>
 				</Pressable>
