@@ -7,7 +7,6 @@ import Bluebox from '../../../src/app/assets/bluePlaceholder.svg';
 import Redbox from '../../../src/app/assets/orangePlaceholder.svg';
 import Orangebox from '../../../src/app/assets/redPlaceholder.svg';
 import DownAnimation from '../../../src/app/assets/lotties/Arrows.json';
-import Svg from 'react-native-svg';
 import LottieView from 'lottie-react-native';
 
 const { width } = Dimensions.get('window');
