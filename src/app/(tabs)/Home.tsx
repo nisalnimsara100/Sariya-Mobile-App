@@ -6,6 +6,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Bluebox from '../../../src/app/assets/bluePlaceholder.svg';
 import Redbox from '../../../src/app/assets/orangePlaceholder.svg';
 import Orangebox from '../../../src/app/assets/redPlaceholder.svg';
+import DownAnimation from '../../../src/app/assets/lotties/Arrows.json';
+import Svg from 'react-native-svg';
+import LottieView from 'lottie-react-native';
 
 const { width } = Dimensions.get('window');
 const boxWidth = Math.min(width * 0.85, 307);
@@ -173,13 +176,11 @@ const IndexScreen = () => {
           features. Use the button below to complete setup.
         </Text>
 
-        <Image
-          source={require('../../../src/app/assets/down.gif')}
-          style={{
-            width: Math.min(width * 0.75, 280),
-            height: 70,
-          }}
-          resizeMode="contain"
+        <LottieView
+          source={DownAnimation}
+          autoPlay
+          loop
+          style={{ width: 100, height: 100 }}
         />
 
         <Link href="screens/setup" asChild>
