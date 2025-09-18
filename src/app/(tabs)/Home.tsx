@@ -1,117 +1,197 @@
-import { View, Text, Pressable, Image, ScrollView, Dimensions } from 'react-native'
-import '../../../global.css'
-import { Link } from 'expo-router'
+import { View, Text, Pressable, Image, Dimensions } from 'react-native';
+import { Link } from 'expo-router';
+import Swiper from 'react-native-swiper';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-const { width } = Dimensions.get("window");
+import Bluebox from '../../../src/app/assets/bluePlaceholder.svg';
+import Redbox from '../../../src/app/assets/orangePlaceholder.svg';
+import Orangebox from '../../../src/app/assets/redPlaceholder.svg';
 
-const index = () => {
+const { width } = Dimensions.get('window');
+const boxWidth = Math.min(width * 0.85, 307);
+const boxHeight = boxWidth * (225 / 307);
+
+const FeatureBox = ({
+  svg: SvgComponent,
+  icon,
+  title,
+  description,
+}: {
+  svg: any;
+  icon: any;
+  title: string;
+  description: string[];
+}) => {
   return (
-    <ScrollView className="flex-1 bg-white">
-      
-      <Image
-        source={require('~/app/assets/icon.png')}
-        className="w-40 h-40 mx-auto mt-16"
-        resizeMode="contain"
-      />
-
-      
-      <View className="mt-6">
-        <ScrollView
-          horizontal
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ alignItems: "center" }}
+    <View className="items-center">
+      <View
+        style={{
+          width: boxWidth,
+          height: boxHeight,
+        }}
+        className="relative rounded-3xl overflow-hidden"
+      >
+        <SvgComponent
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: boxWidth,
+            height: boxHeight,
+            zIndex: 0,
+          }}
+        />
+        <View
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: boxWidth,
+            height: boxHeight,
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: 20,
+            zIndex: 1,
+          }}
         >
-          
-          <View className="w-screen items-center">
-            <View className="bg-blue-500 rounded-2xl p-5 w-[307px] h-[225px] items-center">
-              <View className="bg-white w-12 h-12 rounded-full items-center justify-center mb-4">
-                <Image
-                  source={require('src/app/assets/drop.png')}
-                  className="w-10 h-10"
-                  resizeMode="contain"
-                />
-              </View>
-              <Text className="text-white text-xl font-poppinsMedium text-center mb-3">
-                Real-time Bus Tracking
-              </Text>
-              <Text className="text-white text-sm font-poppinsLight text-center mb-1">
-                • Live GPS map showing bus location and route
-              </Text>
-              <Text className="text-white text-sm font-poppinsLight text-center mb-1">
-                • Estimated time of arrival at pickup, drop points
-              </Text>
-              <Text className="text-white text-sm font-poppinsLight text-center">
-                • Speed alerts and route deviations
-              </Text>
-            </View>
+          <View className="w-14 h-14 rounded-full bg-white justify-center items-center mb-3">
+            <Image
+              source={icon}
+              style={{ width: 32, height: 32, resizeMode: 'contain' }}
+            />
           </View>
+          <Text className="text-white text-2xl font-poppinsMedium text-center mb-3">
+            {title}
+          </Text>
+          <View className="w-full px-3">
+            {description.map((desc, idx) => (
+              <Text
+                key={idx}
+                className="text-white text-xs font-poppinsLight mb-2"
+              >
+                {desc}
+              </Text>
+            ))}
+          </View>
+        </View>
+      </View>
+    </View>
+  );
+};
 
-          
-          <View className="w-screen items-center">
-            <View className="bg-red-400 rounded-2xl p-5 w-[307px] h-[225px] items-center">
-              <View className="bg-white w-12 h-12 rounded-full items-center justify-center mb-4">
-                <Image
-                  source={require('src/app/assets/massage.png')}
-                  className="w-6 h-6"
-                  resizeMode="contain"
-                />
-              </View>
-              <Text className="text-white text-xl font-poppinsMedium text-center mb-3">
-                Communication Hub
-              </Text>
-              <Text className="text-white text-sm font-poppinsLight text-center mb-1">
-                • In-app voice call between parent and driver
-              </Text>
-              <Text className="text-white text-sm font-poppinsLight text-center mb-1">
-                • Group chat for parents of the same bus
-              </Text>
-              <Text className="text-white text-sm font-poppinsLight text-center">
-                • Direct messaging for parent-driver or parent-parent
-              </Text>
-            </View>
-          </View>
+const IndexScreen = () => {
+  const features = [
+    {
+      svg: Bluebox,
+      icon: require('../../../src/app/assets/drop.png'),
+      title: 'Real-time Bus Tracking',
+      description: [
+        '• Live GPS map showing bus location and route.',
+        '• Estimated time of arrival at pickup, drop points.',
+        '• Speed alerts and route deviations.',
+      ],
+    },
+    {
+      svg: Orangebox,
+      icon: require('../../../src/app/assets/massage.png'),
+      title: 'Communication Hub',
+      description: [
+        '• In-app voice call between parent and driver.',
+        '• Group chat for parents of the same bus.',
+        '• Direct messaging for individual parent-driver or parent-parent communication.',
+      ],
+    },
+    {
+      svg: Redbox,
+      icon: require('../../../src/app/assets/bell.png'),
+      title: 'Alerts & Notifications',
+      description: [
+        '• Emergency alerts and urgent messages.',
+        '• Route change and bus delay warnings.',
+        '• All chat message notifications from drivers and parents.',
+      ],
+    },
+  ];
 
-          
-          <View className="w-screen items-center">
-            <View className="bg-orange-400 rounded-2xl p-5 w-[307px] h-[225px] items-center">
-              <View className="bg-white w-12 h-12 rounded-full items-center justify-center mb-4">
-                <Image
-                  source={require('src/app/assets/bell.png')}
-                  className="w-6 h-6"
-                  resizeMode="contain"
-                />
-              </View>
-              <Text className="text-white text-xl font-poppinsMedium text-center mb-3">
-                Alerts & Notifications
-              </Text>
-              <Text className="text-white text-sm font-poppinsLight text-center mb-1">
-                • Emergency alerts and urgent messages
-              </Text>
-              <Text className="text-white text-sm font-poppinsLight text-center mb-1">
-                • Route change and bus delay warnings
-              </Text>
-              <Text className="text-white text-sm font-poppinsLight text-center">
-                • All chat message notifications
-              </Text>
-            </View>
-          </View>
-        </ScrollView>
+  return (
+    <SafeAreaView className="flex-1 bg-white justify-between py-4">
+      <View className="items-center px-4">
+        <Image
+          source={require('../../../src/app/assets/icon.png')}
+          style={{
+            width: Math.min(width * 0.8, 320),
+            height: Math.min(width * 0.48, 180),
+          }}
+          resizeMode="contain"
+        />
       </View>
 
-      
-      <Text className="text-center text-sm font-poppinsRegulary text-gray-500 px-6 mt-6">
-        Add and verify the driver’s mobile number to activate full app features. Use the button below to complete setup.
-      </Text>
+      <View style={{ height: boxHeight + 20 }}>
+        <Swiper
+          loop={false}
+          showsButtons={false}
+          paginationStyle={{ bottom: -25 }}
+          renderPagination={(index, total) => {
+            const colors = ['#266FEF', '#266FEF', '#266FEF'];
+            return (
+              <View className="flex-row justify-center mt-2">
+                {Array.from({ length: total }).map((_, i) => {
+                  const isActive = i === index;
+                  return (
+                    <View
+                      key={i}
+                      style={{
+                        width: isActive ? 24 : 8,
+                        height: 8,
+                        borderRadius: 4,
+                        backgroundColor: colors[i],
+                        marginHorizontal: 4,
+                        opacity: isActive ? 1 : 0.5,
+                      }}
+                    />
+                  );
+                })}
+              </View>
+            );
+          }}
+        >
+          {features.map((feature, idx) => (
+            <FeatureBox
+              key={idx}
+              svg={feature.svg}
+              icon={feature.icon}
+              title={feature.title}
+              description={feature.description}
+            />
+          ))}
+        </Swiper>
+      </View>
 
-      
-      <Link href="screens/setup" asChild>
-        <Pressable className="bg-blue-600 p-4 rounded-xl mt-6 mx-8">
-          <Text className="text-white text-center font-bold">Complete The Setup</Text>
-        </Pressable>
-      </Link>
-    </ScrollView>
-  )
-}
+      <View className="items-center px-6">
+        <Text className="text-center text-base font-poppinsRegulary text-gray-950 mb-1">
+          Add and verify the driver’s mobile number to activate full app
+          features. Use the button below to complete setup.
+        </Text>
 
-export default index
+        <Image
+          source={require('../../../src/app/assets/down.gif')}
+          style={{
+            width: Math.min(width * 0.75, 280),
+            height: 70,
+          }}
+          resizeMode="contain"
+        />
+
+        <Link href="screens/setup" asChild>
+          <Pressable className="bg-blue-500 p-4 rounded-xl mt-5 w-full max-w-[320px]">
+            <Text className="text-white text-center text-lg font-poppinsMedium">
+              Complete The Setup
+            </Text>
+          </Pressable>
+        </Link>
+      </View>
+    </SafeAreaView>
+  );
+};
+
+export default IndexScreen;
