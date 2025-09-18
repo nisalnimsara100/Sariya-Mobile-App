@@ -14,13 +14,13 @@ export default function RootLayout() {
 
   return (
     <Stack
-      initialRouteName="index"
+      initialRouteName="(tabs)"
       screenOptions={{
         headerShown: false,                
         contentStyle: { backgroundColor: '#ffffff' }, 
       }}
     >
-      <Stack.Screen name="(tabs)" />
+      {/* <Stack.Screen name="(tabs)" /> */}
     </Stack>
   )
 }

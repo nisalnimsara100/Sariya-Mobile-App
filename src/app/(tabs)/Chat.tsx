@@ -3,7 +3,7 @@ import React from 'react'
 
 const Chat = () => {
   return (
-    <View>
+    <View className='flex-1 bg-white'>
       <Text>Chat</Text>
     </View>
   )
