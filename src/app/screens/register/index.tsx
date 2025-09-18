@@ -1,14 +1,20 @@
 // @ts-nocheck
-import { View, Text, TextInput, Image, Pressable, KeyboardAvoidingView, Platform, ScrollView, Modal, TouchableOpacity } from 'react-native'
+import { View, Text, TextInput, Image, Pressable, KeyboardAvoidingView, Platform, ScrollView, Modal, TouchableOpacity, Dimensions } from 'react-native'
 import '../../../../global.css'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { router } from 'expo-router'
 import * as React from 'react'
+import ArrowBack from '../../assets/arrowback.svg'
+import ArrowDown from '../../assets/arrowdown.svg'
 
 const BORDER = '#BCD1FF'
 const PRIMARY = '#266FEF'
 
 export default function RegisterScreen() {
+	const { width } = Dimensions.get('window')
+	const containerWidth = Math.min(width * 0.85, 320) // Max width of 320px, or 85% of screen width
+	const logoSize = Math.min(width * 0.55, 217) // Responsive logo size
+	
 	const [name, setName] = React.useState('')
 	const [email, setEmail] = React.useState('')
 	const [mobile, setMobile] = React.useState('')
@@ -20,17 +26,28 @@ export default function RegisterScreen() {
 	return (
 		<SafeAreaView className="flex-1 bg-white">
 			<KeyboardAvoidingView behavior={Platform.select({ ios: 'padding', android: undefined })} className="flex-1">
-				<ScrollView contentContainerStyle={{ paddingHorizontal: 24, paddingBottom: 24 }}>
-					{/* Back button (thick black) */}
+				<ScrollView contentContainerStyle={{ 
+					paddingHorizontal: Math.max(width * 0.075, 16), // Responsive horizontal padding
+					paddingBottom: 24 
+				}}>
+					{/* Back button */}
 					<Pressable onPress={() => router.back()} accessibilityLabel="Go back" className="mt-4 w-10 h-10 items-start justify-center" hitSlop={12}>
-						<Text className="text-black" style={{ fontSize: 30, fontWeight: '800', lineHeight: 30 }}>←</Text>
+						<ArrowBack width={24} height={24} />
 					</Pressable>
 
 					{/* Logo */}
-					<Image source={require('~/app/assets/logoB.png')} resizeMode="contain" className="self-center w-[217px] h-[217px] mt-2" />
+					<Image 
+						source={require('~/app/assets/logoB.png')} 
+						resizeMode="contain" 
+						className="self-center mt-2" 
+						style={{ 
+							width: logoSize, 
+							height: logoSize 
+						}} 
+					/>
 
 					{/* Name */}
-					<View className="self-center w-[310px] mt-2">
+					<View className="self-center mt-2" style={{ width: containerWidth }}>
 						<Text className="text-[16px] leading-[32px] font-poppinsMedium text-black">Name<Text>*</Text></Text>
 						<View className="mt-1 h-[48px] rounded-[9px] border" style={{ borderColor: BORDER }}>
 							<TextInput
@@ -44,7 +61,7 @@ export default function RegisterScreen() {
 					</View>
 
 					{/* Email */}
-					<View className="self-center w-[310px] mt-3">
+					<View className="self-center mt-3" style={{ width: containerWidth }}>
 						<Text className="text-[16px] leading-[32px] font-poppinsMedium text-black">Email<Text>*</Text></Text>
 						<View className="mt-1 h-[48px] rounded-[9px] border" style={{ borderColor: BORDER }}>
 							<TextInput
@@ -60,7 +77,7 @@ export default function RegisterScreen() {
 					</View>
 
 					{/* Mobile Number */}
-					<View className="self-center w-[310px] mt-3">
+					<View className="self-center mt-3" style={{ width: containerWidth }}>
 						<Text className="text-[16px] leading-[32px] font-poppinsMedium text-black">Mobile Number<Text>*</Text></Text>
 						<View className="mt-1 h-[48px] rounded-[9px] border" style={{ borderColor: BORDER }}>
 							<TextInput
@@ -75,18 +92,18 @@ export default function RegisterScreen() {
 					</View>
 
 					{/* User Type */}
-					<View className="self-center w-[310px] mt-3">
+					<View className="self-center mt-3" style={{ width: containerWidth }}>
 						<Text className="text-[16px] leading-[32px] font-poppinsMedium text-black">User Type<Text>*</Text></Text>
 						<Pressable onPress={() => setPickerOpen(true)} className="mt-1 h-[48px] rounded-[9px] border flex-row items-center justify-between px-4" style={{ borderColor: BORDER }}>
 							<Text className={`text-[16px] leading-[32px] ${userType ? 'text-black' : 'text-[#959595]'} font-poppinsRegular`}>
 								{userType || 'Select User Type'}
 							</Text>
-							<Text className="text-black text-[18px] -mt-[2px]">⌄</Text>
+							<ArrowDown width={16} height={16} />
 						</Pressable>
 					</View>
 
 					{/* Continue */}
-					<Pressable className="self-center w-[310px] h-[48px] rounded-[9px] mt-4 items-center justify-center" style={{ backgroundColor: PRIMARY }} onPress={() => {}}>
+					<Pressable className="self-center h-[48px] rounded-[9px] mt-4 items-center justify-center" style={{ backgroundColor: PRIMARY, width: containerWidth }} onPress={() => {}}>
 						<Text className="text-white text-[16px] leading-[32px] font-poppinsMedium">Continue</Text>
 					</Pressable>
 
@@ -100,7 +117,13 @@ export default function RegisterScreen() {
 			{/* Simple picker modal */}
 			<Modal transparent visible={pickerOpen} animationType="fade" onRequestClose={() => setPickerOpen(false)}>
 				<Pressable className="flex-1 bg-black/30" onPress={() => setPickerOpen(false)}>
-					<View className="absolute left-6 right-6 top-1/3 rounded-xl bg-white p-4">
+					<View 
+						className="absolute top-1/3 rounded-xl bg-white p-4"
+						style={{ 
+							left: Math.max(width * 0.075, 16),
+							right: Math.max(width * 0.075, 16)
+						}}
+					>
 						{userTypes.map((ut) => (
 							<TouchableOpacity key={ut} className="py-3" onPress={() => { setUserType(ut); setPickerOpen(false) }}>
 								<Text className="text-[16px] font-poppinsMedium">{ut}</Text>

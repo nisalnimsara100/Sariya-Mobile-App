@@ -1,4 +1,4 @@
-import { View, Text, TextInput, Image, Pressable, KeyboardAvoidingView, Platform, ScrollView } from 'react-native'
+import { View, Text, TextInput, Image, Pressable, KeyboardAvoidingView, Platform, ScrollView, Dimensions } from 'react-native'
 import '../../../../global.css'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Link } from 'expo-router'
@@ -22,68 +22,85 @@ const COLORS = {
 	neutral500: '#4B4C50',
 }
 
-const SocialButton = ({ source, label, className = '', iconClassName = 'mr-4' }: { source: any; label: string; className?: string; iconClassName?: string }) => (
-	<Pressable className={`rounded-[9px] border border-[#BCD1FF] bg-white flex-row items-center justify-center ${className}`}>
+const SocialButton = ({ source, label, className = '', iconClassName = 'mr-4', style }: { source: any; label: string; className?: string; iconClassName?: string; style?: any }) => (
+	<Pressable className={`rounded-[9px] border border-[#BCD1FF] bg-white flex-row items-center justify-center ${className}`} style={style}>
 		<Image source={source} className={`w-4 h-4 ${iconClassName}`} resizeMode="contain" />
 		<Text className="text-[#959595] text-[13px] leading-[20px] font-poppinsSemiBold">{label}</Text>
 	</Pressable>
 )
 
 export default function LoginScreen() {
+	const { width, height } = Dimensions.get('window')
+	const containerWidth = Math.min(width * 0.85, 320) // Max width of 320px, or 85% of screen width
+	const imageSize = Math.min(width * 0.6, 240) // Responsive image size
+
 		// Uncontrolled input for simple UI parity with the mock
 		return (
 			<SafeAreaView className="flex-1 bg-white">
 				<KeyboardAvoidingView behavior={Platform.select({ ios: 'padding', android: undefined })} className="flex-1">
 					<ScrollView
-						contentContainerStyle={{ paddingHorizontal: 24, paddingBottom: 24 }}
+						contentContainerStyle={{ 
+							paddingHorizontal: Math.max(width * 0.075, 16), // Responsive horizontal padding (7.5% of screen width, minimum 16px)
+							paddingBottom: 24,
+							minHeight: height - 100 // Ensure content takes full height minus safe area
+						}}
 						keyboardShouldPersistTaps="handled"
 						showsVerticalScrollIndicator={false}
 					>
 						{/* Header Illustration */}
-									<Image
-										source={require('~/app/assets/login-top.png')}
-										resizeMode="contain"
-										className="self-center w-[240px] h-[235px] mt-[90px]"
-									/>
+						<Image
+							source={require('~/app/assets/login-top.png')}
+							resizeMode="contain"
+							className="self-center mt-[60px]"
+							style={{ 
+								width: imageSize, 
+								height: imageSize * 0.98 // Maintain aspect ratio
+							}}
+						/>
 
 						{/* Form */}
-												<View className="mt-[36px] self-center w-[300px]">
-													<Text className="self-start text-[16px] leading-[32px] text-[#23252F] font-poppinsSemiBold">Enter Your Mobile Number<Text>*</Text></Text>
-													<View className="mt-[12px] w-full h-[48px] rounded-[9px] border border-[#BCD1FF] bg-white justify-center">
+						<View className="mt-[36px] self-center" style={{ width: containerWidth }}>
+							<Text className="self-start text-[16px] leading-[32px] text-[#23252F] font-poppinsSemiBold">Enter Your Mobile Number<Text>*</Text></Text>
+							<View className="mt-[12px] w-full h-[48px] rounded-[9px] border border-[#BCD1FF] bg-white justify-center">
 								<TextInput
 									keyboardType="phone-pad"
 									placeholder="+94 70 XXX XXXX"
 									placeholderTextColor="#A1A1A1"
-															className="px-4 text-[#23252F] font-poppinsMedium"
+									className="px-4 text-[#23252F] font-poppinsMedium"
 								/>
 							</View>
 
 							<Pressable
-														className="mt-[20px] w-[300px] self-center h-[48px] rounded-[9px] justify-center"
-								style={{ backgroundColor: COLORS.primary }}
+								className="mt-[20px] self-center h-[48px] rounded-[9px] justify-center"
+								style={{ 
+									backgroundColor: COLORS.primary,
+									width: containerWidth
+								}}
 								onPress={() => {}}
 							>
-											<Text className="text-white text-center font-poppinsSemiBold">Continue</Text>
+								<Text className="text-white text-center font-poppinsSemiBold">Continue</Text>
 							</Pressable>
 						</View>
 
 						{/* Divider text */}
-									<View className="mt-[24px] mb-[8px] items-center">
-										<Text className="text-[14px] leading-[22px] text-[#23252F] font-poppinsSemiBold">Or Sign Up With</Text>
+						<View className="mt-[24px] mb-[8px] items-center">
+							<Text className="text-[14px] leading-[22px] text-[#23252F] font-poppinsSemiBold">Or Sign Up With</Text>
 						</View>
 
-									<View className="items-center">
-										<SocialButton
-											source={require('~/app/assets/g.png')}
-											label="Login With Google"
-											className="mt-[24px] w-[300px] h-[48px]"
-											iconClassName="mr-5"
-										/>
-										<SocialButton
-											source={require('~/app/assets/f.png')}
-											label="Login With Facebook"
-											className="mt-[16px] w-[300px] h-[48px]"
-										/>
+						<View className="items-center">
+							<SocialButton
+								source={require('~/app/assets/g.png')}
+								label="Login With Google"
+								className="mt-[24px] h-[48px]"
+								iconClassName="mr-5"
+								style={{ width: containerWidth }}
+							/>
+							<SocialButton
+								source={require('~/app/assets/f.png')}
+								label="Login With Facebook"
+								className="mt-[16px] h-[48px]"
+								style={{ width: containerWidth }}
+							/>
 						</View>
 
 						{/* Footer link */}
