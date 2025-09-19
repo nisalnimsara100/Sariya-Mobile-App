@@ -39,12 +39,13 @@ const FeatureBox = ({
       }}
     >
       <SvgComponent
+        width="100%"
+        height="100%"
+        preserveAspectRatio="xMidYMid slice"
         style={{
           position: 'absolute',
           top: 0,
           left: 0,
-          width: boxWidth,
-          height: boxHeight,
           zIndex: 0,
         }}
       />
@@ -103,7 +104,6 @@ const IndexScreen = () => {
         resizeMode="contain"
       />
 
-      
       <View style={{ height: boxHeight + 3 }}>
         <Animated.FlatList
           data={features}
@@ -124,7 +124,6 @@ const IndexScreen = () => {
         />
       </View>
 
-      
       <View className="flex-row justify-center items-center mt-3 mb-4">
         {features.map((_, i) => {
           const inputRange = [
@@ -161,7 +160,6 @@ const IndexScreen = () => {
         })}
       </View>
 
-      
       <View className="items-center px-8 w-full">
         <Text className="text-center text-base font-poppinsRegulary text-gray-950 mb-0 leading-relaxed">
           Add and verify the driver’s mobile number to{'\n'}
