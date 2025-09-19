@@ -37,6 +37,11 @@ const index = () => {
           <Text className='text-white text-center'>Open Home Screen</Text>
         </Pressable>
       </Link>
+      <Link href="screens/onboard" asChild>
+        <Pressable className='bg-red-500 p-4 rounded-lg ml-10 mr-10 mt-3 mb-10'>
+          <Text className='text-white text-center'>Open Onboarding Screen</Text>
+        </Pressable>
+      </Link>
 
       
     </View>
