@@ -110,13 +110,13 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({ title }) => (
   <View
     style={[
       styles.sectionContainer,
-      title === 'Driver' ? { backgroundColor: '#000000' } : { backgroundColor: '#EBEBEB' },
+      title === 'Driver' ? styles.driverSection : styles.parentSection,
     ]}
   >
     <Text
       style={[
         styles.sectionText,
-        title === 'Driver' ? { color: '#FFFFFF' } : { color: '#4C4C4C' },
+        title === 'Driver' ? styles.driverText : styles.parentText,
       ]}
     >
       {title}
@@ -199,7 +199,7 @@ const Chat: React.FC = () => {
         }
         renderItem={({ item: section }) => (
           <View>
-            <SectionHeader title={section.section ?? 'Driver'} />
+            <SectionHeader title={section.section1 ?? section.section ?? 'Unknown'} />
             {section.data.map((chat) => (
               <ChatItem key={chat.id} item={chat} />
             ))}
@@ -258,12 +258,24 @@ const styles = StyleSheet.create({
     marginVertical: verticalScale(8),
     borderRadius: moderateScale(20),
     paddingHorizontal: scale(16),
-    paddingVertical: verticalScale(4),
+    paddingVertical: verticalScale(8),
     alignSelf: 'flex-start',
+  },
+  driverSection: {
+    backgroundColor: '#000000',
+  },
+  parentSection: {
+    backgroundColor: '#EBEBEB',
   },
   sectionText: {
     fontWeight: '600',
-    fontSize: responsiveFontSize(13),
+    fontSize: responsiveFontSize(14),
+  },
+  driverText: {
+    color: '#FFFFFF',
+  },
+  parentText: {
+    color: '#4C4C4C',
   },
   chatItemContainer: {
     flexDirection: 'row',
