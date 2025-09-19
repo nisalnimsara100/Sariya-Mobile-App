@@ -1,23 +1,38 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  View, 
-  Text, 
-  TextInput, 
-  Image, 
-  TouchableOpacity, 
-  FlatList, 
-  StyleSheet, 
+import {
+  View,
+  Text,
+  TextInput,
+  Image,
+  TouchableOpacity,
+  FlatList,
+  StyleSheet,
   Dimensions,
-  PixelRatio ,
-  Modal
+  PixelRatio,
 } from 'react-native';
 import ChatPlus from '../assets/icons/chatss/Vector.svg';
 import ChatNisal from '../assets/icons/chatss/Nisal.svg';
 import ChatNethmi from '../assets/icons/chatss/Nethmi.svg';
 import ChatAshen from '../assets/icons/chatss/Ashen.svg';
 import ChatSearch from '../assets/icons/chatss/search-line.svg';
+import ChatModal from '../components/NewChatModal'; 
 
-const chatData = [
+interface ChatItem {
+  id: string;
+  name: string;
+  lastMessage: string;
+  time: string;
+  unread: number;
+  avatar: string;
+}
+
+interface ChatSection {
+  section?: string;
+  section1?: string;
+  data: ChatItem[];
+}
+
+const chatData: ChatSection[] = [
   {
     section1: 'Driver',
     data: [
@@ -76,80 +91,62 @@ const isTablet = screenWidth > 600;
 const isLandscape = screenWidth > screenHeight;
 
 // Responsive scaling functions
-interface ScaleFunction {
-  (size: number): number;
-}
-
-const scale: ScaleFunction = (size) => (screenWidth / 375) * size; // 375 is base width (iPhone 6/7/8)
-interface VerticalScaleFunction {
-  (size: number): number;
-}
-
-const verticalScale: VerticalScaleFunction = (size) => (screenHeight / 812) * size; // 812 is base height
-interface ModerateScaleFunction {
-  (size: number, factor?: number): number;
-}
-
-const moderateScale: ModerateScaleFunction = (size, factor = 0.5) => size + (scale(size) - size) * factor;
+const scale = (size: number): number => (screenWidth / 375) * size; // 375 is base width (iPhone 6/7/8)
+const verticalScale = (size: number): number => (screenHeight / 812) * size; // 812 is base height
+const moderateScale = (size: number, factor: number = 0.5): number =>
+  size + (scale(size) - size) * factor;
 
 // Responsive font size
-interface ResponsiveFontSizeFunction {
-  (size: number): number;
-}
-
-const responsiveFontSize: ResponsiveFontSizeFunction = (size) => {
+const responsiveFontSize = (size: number): number => {
   const newSize = size * (screenWidth / 375);
   return Math.max(newSize, size * 0.8); // Ensure minimum readability
 };
 
-type SectionHeaderProps = {
+interface SectionHeaderProps {
   title: string;
-};
+}
 
-const SectionHeader = ({ title }: SectionHeaderProps) => (
-  <View style={[
-    styles.sectionContainer,
-    title === 'Driver' ? { backgroundColor: '#000000' } : { backgroundColor: '#EBEBEB' }
-  ]}>
-    <Text style={[
-      styles.sectionText,
-      title === 'Driver' ? { color: '#FFFFFF' } : { color: '#4C4C4C' }
-    ]}>
+const SectionHeader: React.FC<SectionHeaderProps> = ({ title }) => (
+  <View
+    style={[
+      styles.sectionContainer,
+      title === 'Driver' ? { backgroundColor: '#000000' } : { backgroundColor: '#EBEBEB' },
+    ]}
+  >
+    <Text
+      style={[
+        styles.sectionText,
+        title === 'Driver' ? { color: '#FFFFFF' } : { color: '#4C4C4C' },
+      ]}
+    >
       {title}
     </Text>
   </View>
 );
 
-type ChatItemProps = {
-  item: {
-    id: string;
-    name: string;
-    lastMessage: string;
-    time: string;
-    unread: number;
-    avatar: string;
-  };
-};
+interface ChatItemProps {
+  item: ChatItem;
+}
 
-const ChatItem = ({ item }: ChatItemProps) => (
+const ChatItem: React.FC<ChatItemProps> = ({ item }) => (
   <View style={styles.chatItemContainer}>
     {item.avatar === 'nisal' ? (
-      <ChatNisal 
-        width={styles.avatar.width} 
-        height={styles.avatar.height} 
-        style={styles.avatar} 
+      <ChatNisal
+        width={styles.avatar.width}
+        height={styles.avatar.height}
+        style={styles.avatar}
       />
     ) : item.avatar === 'nethmi' ? (
-      <ChatNethmi 
-        width={styles.avatar.width} 
-        height={styles.avatar.height} 
-        style={styles.avatar} 
+      <ChatNethmi
+        width={styles.avatar.width}
+        height={styles.avatar.height}
+        style={styles.avatar}
       />
     ) : item.avatar === 'ashen' ? (
-      <ChatAshen 
-        width={styles.avatar.width} 
-        height={styles.avatar.height} 
-        style={styles.avatar} 
+      <ChatAshen
+        width={styles.avatar.width}
+        height={styles.avatar.height}
+        style={styles.avatar}
       />
     ) : (
       <Image source={{ uri: item.avatar }} style={styles.avatar} />
@@ -171,8 +168,9 @@ const ChatItem = ({ item }: ChatItemProps) => (
   </View>
 );
 
-const Chat = () => {
+const Chat: React.FC = () => {
   const [dimensions, setDimensions] = useState(Dimensions.get('window'));
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
 
   useEffect(() => {
     const subscription = Dimensions.addEventListener('change', ({ window }) => {
@@ -181,27 +179,24 @@ const Chat = () => {
     return () => subscription?.remove();
   }, []);
 
-  const [modalVisible, setModalVisible] = useState(false);
-
   return (
     <View style={styles.container}>
       <View style={styles.searchBoxContainer}>
         <View style={styles.searchBoxInner}>
-          <ChatSearch 
-            width={moderateScale(20)} 
-            height={moderateScale(20)} 
-            style={styles.searchIcon} 
+          <ChatSearch
+            width={moderateScale(20)}
+            height={moderateScale(20)}
+            style={styles.searchIcon}
           />
-          <TextInput
-            placeholder="Search Chats"
-            style={styles.searchBox}
-          />
+          <TextInput placeholder="Search Chats" style={styles.searchBox} />
         </View>
       </View>
 
       <FlatList
         data={chatData}
-        keyExtractor={(section, index) => section.section ? section.section : section.section1 ? section.section1 : `section-${index}`}
+        keyExtractor={(section, index) =>
+          section.section ? section.section : section.section1 ? section.section1 : `section-${index}`
+        }
         renderItem={({ item: section }) => (
           <View>
             <SectionHeader title={section.section ?? 'Driver'} />
@@ -213,24 +208,14 @@ const Chat = () => {
         showsVerticalScrollIndicator={false}
       />
 
-      <TouchableOpacity 
+      <TouchableOpacity
         style={styles.floatingButton}
-        onPress={() => setModalVisible(true)}>
-        <ChatPlus 
-          width={moderateScale(26)} 
-          height={moderateScale(26)} 
-        />
+        onPress={() => setModalVisible(true)}
+      >
+        <ChatPlus width={moderateScale(26)} height={moderateScale(26)} />
       </TouchableOpacity>
 
-      <Modal
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-        animationType='slide'
-        // transparent={false}
-        presentationStyle='pageSheet'
-         >
-
-      </Modal>
+      <ChatModal visible={modalVisible} onClose={() => setModalVisible(false)} />
     </View>
   );
 };
@@ -341,7 +326,6 @@ const styles = StyleSheet.create({
     borderRadius: moderateScale(28),
     justifyContent: 'center',
     alignItems: 'center',
-    // Add shadow for better visibility
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -350,11 +334,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-  },
-  floatingButtonText: {
-    color: '#FFF',
-    fontSize: responsiveFontSize(38),
-    marginBottom: verticalScale(3),
   },
 });
 
