@@ -16,6 +16,7 @@ import Bluebox from 'src/app/assets/bluePlaceholder.svg';
 import Redbox from 'src/app/assets/Communication Hub.svg';
 import Orangebox from 'src/app/assets/Alerts & Notifications.svg';
 import DownAnimation from '../../../src/app/assets/lotties/Arrows.json';
+import BusDetailsForm from '../screens/home/BusDetails';
 
 // Get screen dimensions
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
@@ -186,7 +187,9 @@ const IndexScreen = () => {
         />
 
         <Link href="screens/setup" asChild>
-          <Pressable style={styles.button}>
+          <Pressable 
+          style={styles.button}
+          onPress={BusDetailsForm}>
             <Text style={styles.buttonText}>Complete The Setup</Text>
           </Pressable>
         </Link>
