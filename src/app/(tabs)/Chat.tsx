@@ -8,7 +8,8 @@ import {
   FlatList, 
   StyleSheet, 
   Dimensions,
-  PixelRatio 
+  PixelRatio ,
+  Modal
 } from 'react-native';
 import ChatPlus from '../assets/icons/chatss/Vector.svg';
 import ChatNisal from '../assets/icons/chatss/Nisal.svg';
@@ -180,6 +181,8 @@ const Chat = () => {
     return () => subscription?.remove();
   }, []);
 
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <View style={styles.container}>
       <View style={styles.searchBoxContainer}>
@@ -210,12 +213,24 @@ const Chat = () => {
         showsVerticalScrollIndicator={false}
       />
 
-      <TouchableOpacity style={styles.floatingButton}>
+      <TouchableOpacity 
+        style={styles.floatingButton}
+        onPress={() => setModalVisible(true)}>
         <ChatPlus 
           width={moderateScale(26)} 
           height={moderateScale(26)} 
         />
       </TouchableOpacity>
+
+      <Modal
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+        animationType='slide'
+        // transparent={false}
+        presentationStyle='pageSheet'
+         >
+
+      </Modal>
     </View>
   );
 };

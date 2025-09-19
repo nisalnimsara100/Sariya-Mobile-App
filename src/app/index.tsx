@@ -3,6 +3,7 @@ import '../../global.css'
 import { Link } from 'expo-router'
 
 const index = () => {
+  
   return (
     <View>
       <Image 
@@ -31,6 +32,8 @@ const index = () => {
           <Text className='text-white text-center'>Open Login Screen</Text>
         </Pressable>
       </Link>
+
+      
     </View>
   )
 }
