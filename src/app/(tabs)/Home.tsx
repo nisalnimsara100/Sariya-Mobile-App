@@ -1,3 +1,4 @@
+import React, { useRef } from 'react';
 import {
   View,
   Text,
@@ -5,22 +6,33 @@ import {
   Image,
   Dimensions,
   Animated,
-  FlatList,
+  StyleSheet,
 } from 'react-native';
 import { Link } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import LottieView from 'lottie-react-native';
-import { useRef } from 'react';
 
 import Bluebox from 'src/app/assets/bluePlaceholder.svg';
 import Redbox from 'src/app/assets/Communication Hub.svg';
 import Orangebox from 'src/app/assets/Alerts & Notifications.svg';
-
 import DownAnimation from '../../../src/app/assets/lotties/Arrows.json';
 
-const screenWidth = Dimensions.get('window').width;
-const boxWidth = Math.min(screenWidth * 0.9, 307);
-const boxHeight = 225;
+// Get screen dimensions
+const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+
+// Responsive helpers
+const scale = (size: number): number => (screenWidth / 375) * size;
+const verticalScale = (size: number): number => (screenHeight / 812) * size;
+const moderateScale = (size: number, factor: number = 0.5): number =>
+  size + (scale(size) - size) * factor;
+
+const responsiveFontSize = (size: number): number => {
+  const newSize = size * (screenWidth / 375);
+  return Math.max(newSize, size * 0.85);
+};
+
+const boxWidth = Math.min(screenWidth * 0.9, moderateScale(400));
+const boxHeight = verticalScale(245);
 
 const FeatureBox = ({
   svg: SvgComponent,
@@ -34,7 +46,7 @@ const FeatureBox = ({
       style={{
         width: boxWidth,
         height: boxHeight,
-        borderRadius: 24,
+        borderRadius: moderateScale(40),
         overflow: 'hidden',
       }}
     >
@@ -42,25 +54,21 @@ const FeatureBox = ({
         width="100%"
         height="100%"
         preserveAspectRatio="xMidYMid slice"
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          zIndex: 0,
-        }}
+        style={StyleSheet.absoluteFillObject}
       />
+
+      {/* Icon in white circle */}
       <View
         style={{
           position: 'absolute',
-          top: 25,
-          left: boxWidth / 2 - 28,
-          width: 56,
-          height: 56,
-          borderRadius: 28,
+          top: verticalScale(30),
+          left: boxWidth / 2 - moderateScale(28),
+          width: moderateScale(60),
+          height: moderateScale(60),
+          borderRadius: moderateScale(30),
           backgroundColor: 'white',
           justifyContent: 'center',
           alignItems: 'center',
-          zIndex: 2,
           shadowColor: '#000',
           shadowOffset: { width: 0, height: 2 },
           shadowOpacity: 0.2,
@@ -70,7 +78,11 @@ const FeatureBox = ({
       >
         <Image
           source={icon}
-          style={{ width: 32, height: 32, resizeMode: 'contain' }}
+          style={{
+            width: moderateScale(40),
+            height: moderateScale(40),
+            resizeMode: 'contain',
+          }}
         />
       </View>
     </View>
@@ -81,30 +93,22 @@ const IndexScreen = () => {
   const scrollX = useRef(new Animated.Value(0)).current;
 
   const features = [
-    {
-      svg: Bluebox,
-      icon: require('../../../src/app/assets/drop.png'),
-    },
-    {
-      svg: Redbox,
-      icon: require('../../../src/app/assets/massage.png'),
-    },
-    {
-      svg: Orangebox,
-      icon: require('../../../src/app/assets/bell.png'),
-    },
+    { svg: Bluebox, icon: require('../../../src/app/assets/drop.png') },
+    { svg: Redbox, icon: require('../../../src/app/assets/massage.png') },
+    { svg: Orangebox, icon: require('../../../src/app/assets/bell.png') },
   ];
 
   return (
-    <SafeAreaView className="flex-1 bg-white justify-between items-center py-4">
-      
+    <SafeAreaView style={styles.container}>
+      {/* App Icon */}
       <Image
         source={require('../../../src/app/assets/icon.png')}
-        style={{ width: boxWidth, height: 200 }}
+        style={{ width: boxWidth, height: verticalScale(240) }}
         resizeMode="contain"
       />
 
-      <View style={{ height: boxHeight + 3 }}>
+      {/* Feature Slider */}
+      <View style={{ height: boxHeight + verticalScale(3) }}>
         <Animated.FlatList
           data={features}
           horizontal
@@ -124,7 +128,8 @@ const IndexScreen = () => {
         />
       </View>
 
-      <View className="flex-row justify-center items-center mt-3 mb-4">
+      {/* Dots */}
+      <View style={styles.dotsContainer}>
         {features.map((_, i) => {
           const inputRange = [
             (i - 1) * screenWidth,
@@ -134,7 +139,7 @@ const IndexScreen = () => {
 
           const dotWidth = scrollX.interpolate({
             inputRange,
-            outputRange: [8, 25, 8],
+            outputRange: [moderateScale(8), moderateScale(25), moderateScale(8)],
             extrapolate: 'clamp',
           });
 
@@ -149,10 +154,10 @@ const IndexScreen = () => {
               key={`dot-${i}`}
               style={{
                 width: dotWidth,
-                height: 8,
-                borderRadius: 4,
+                height: verticalScale(8),
+                borderRadius: moderateScale(4),
                 backgroundColor: '#266FEF',
-                marginHorizontal: 2,
+                marginHorizontal: scale(2),
                 opacity,
               }}
             />
@@ -160,32 +165,80 @@ const IndexScreen = () => {
         })}
       </View>
 
-      <View className="items-center px-8 w-full">
-        <Text className="text-center text-base font-poppinsRegulary text-gray-950 mb-0 leading-relaxed">
+      {/* Text + Button */}
+      <View style={styles.bottomContainer}>
+        <Text style={styles.infoText}>
           Add and verify the driver’s mobile number to{'\n'}
           activate full app features.{'\n'}
           Use the button below to complete setup.
         </Text>
 
-        <View className="mb-0">
-          <LottieView
-            source={DownAnimation}
-            autoPlay
-            loop
-            style={{ width: 60, height: 60, marginBottom: 0 }}
-          />
-        </View>
+        {/* Responsive Lottie Animation */}
+        <LottieView
+          source={DownAnimation}
+          autoPlay
+          loop
+          style={{
+            width: moderateScale(56),
+            height: moderateScale(56),
+            marginBottom: verticalScale(0),
+          }}
+        />
 
         <Link href="screens/setup" asChild>
-          <Pressable className="bg-blue-500 p-4 rounded-xl w-full max-w-[307px]">
-            <Text className="text-white text-center text-lg font-poppinsMedium">
-              Complete The Setup
-            </Text>
+          <Pressable style={styles.button}>
+            <Text style={styles.buttonText}>Complete The Setup</Text>
           </Pressable>
         </Link>
       </View>
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: verticalScale(18),
+  },
+  dotsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: verticalScale(5),
+    marginBottom: verticalScale(18),
+  },
+  bottomContainer: {
+    alignItems: 'center',
+    paddingHorizontal: scale(20),
+    width: '100%',
+  },
+  infoText: {
+    textAlign: 'center',
+    fontSize: responsiveFontSize(16),
+    lineHeight: responsiveFontSize(20),
+    fontFamily: 'Poppins-Regular',
+    color: '#000000',
+    marginBottom: verticalScale(2),
+    fontWeight: '400',
+    
+  },
+  button: {
+    backgroundColor: '#266FEF',
+    paddingVertical: verticalScale(15),
+    borderRadius: moderateScale(12),
+    width: '100%',
+    maxWidth: moderateScale(380),
+  },
+  buttonText: {
+    color: '#fff',
+    textAlign: 'center',
+    fontSize: responsiveFontSize(18),
+    fontWeight: '500',
+    fontFamily: 'Poppins-Medium', 
+  },
+});
 
 export default IndexScreen;
