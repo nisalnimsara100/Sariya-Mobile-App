@@ -10,7 +10,7 @@ import {
 import { Link } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import LottieView from 'lottie-react-native';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 
 import Bluebox from 'src/app/assets/bluePlaceholder.svg';
 import Redbox from 'src/app/assets/Communication Hub.svg';
@@ -77,7 +77,6 @@ const FeatureBox = ({
 );
 
 const IndexScreen = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
 
   const features = [
@@ -95,23 +94,17 @@ const IndexScreen = () => {
     },
   ];
 
-  const handleScrollEnd = (event: any) => {
-    const offsetX = event.nativeEvent.contentOffset.x;
-    const index = Math.round(offsetX / screenWidth);
-    setActiveIndex(index);
-  };
-
   return (
     <SafeAreaView className="flex-1 bg-white justify-between items-center py-4">
-      {/* Logo */}
+      
       <Image
         source={require('../../../src/app/assets/icon.png')}
         style={{ width: boxWidth, height: 200 }}
         resizeMode="contain"
       />
 
-      {/* Feature Scroll */}
-      <View style={{ height: boxHeight + 20 }}>
+      
+      <View style={{ height: boxHeight + 3 }}>
         <Animated.FlatList
           data={features}
           horizontal
@@ -120,7 +113,6 @@ const IndexScreen = () => {
           decelerationRate="fast"
           showsHorizontalScrollIndicator={false}
           keyExtractor={(_, idx) => `feature-${idx}`}
-          onMomentumScrollEnd={handleScrollEnd}
           onScroll={Animated.event(
             [{ nativeEvent: { contentOffset: { x: scrollX } } }],
             { useNativeDriver: false }
@@ -132,42 +124,62 @@ const IndexScreen = () => {
         />
       </View>
 
-      {/* Connected Stretching Dots */}
-      <View className="flex-row justify-center items-center mt-0">
+      
+      <View className="flex-row justify-center items-center mt-3 mb-4">
         {features.map((_, i) => {
-          const isActive = i === activeIndex;
+          const inputRange = [
+            (i - 1) * screenWidth,
+            i * screenWidth,
+            (i + 1) * screenWidth,
+          ];
+
+          const dotWidth = scrollX.interpolate({
+            inputRange,
+            outputRange: [8, 25, 8],
+            extrapolate: 'clamp',
+          });
+
+          const opacity = scrollX.interpolate({
+            inputRange,
+            outputRange: [0.3, 1, 0.3],
+            extrapolate: 'clamp',
+          });
+
           return (
             <Animated.View
               key={`dot-${i}`}
               style={{
-                width: isActive ? 32 : 8,
+                width: dotWidth,
                 height: 8,
                 borderRadius: 4,
                 backgroundColor: '#266FEF',
-                marginHorizontal: 4,
-                opacity: isActive ? 1 : 0.4,
+                marginHorizontal: 2,
+                opacity,
               }}
             />
           );
         })}
       </View>
 
-      {/* Setup Section */}
-      <View className="items-center px-8 w-full mt-2">
-        <Text className="text-center text-base font-poppinsRegulary text-gray-950 mb-2">
-          Add and verify the driver’s mobile number to activate full app
-          features. Use the button below to complete setup.
+      
+      <View className="items-center px-8 w-full">
+        <Text className="text-center text-base font-poppinsRegulary text-gray-950 mb-0 leading-relaxed">
+          Add and verify the driver’s mobile number to{'\n'}
+          activate full app features.{'\n'}
+          Use the button below to complete setup.
         </Text>
 
-        <LottieView
-          source={DownAnimation}
-          autoPlay
-          loop
-          style={{ width: 50, height: 50, marginBottom: -15 }}
-        />
+        <View className="mb-0">
+          <LottieView
+            source={DownAnimation}
+            autoPlay
+            loop
+            style={{ width: 60, height: 60, marginBottom: 0 }}
+          />
+        </View>
 
         <Link href="screens/setup" asChild>
-          <Pressable className="bg-blue-500 p-4 rounded-xl w-full max-w-[307px] mt-3">
+          <Pressable className="bg-blue-500 p-4 rounded-xl w-full max-w-[307px]">
             <Text className="text-white text-center text-lg font-poppinsMedium">
               Complete The Setup
             </Text>
