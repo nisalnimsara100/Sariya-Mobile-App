@@ -8,7 +8,7 @@ const index = () => {
     <View>
       <Image 
         source={require('~/app/assets/icon.png')} 
-        className="w-64 h-64 mx-auto mt-40"
+        className="w-64 h-64 mx-auto mt-20"
         resizeMode="contain"
       />
       <Text className='text-4xl mt-20 text-center font-poppinsBold'>Screen Buttons</Text>
@@ -33,21 +33,25 @@ const index = () => {
         </Pressable>
       </Link>
       <Link href="screens/home/BusDetails" asChild>
-        <Pressable className='bg-yellow-500 p-4 rounded-lg ml-10 mr-10 mt-3 mb-10'>
+        <Pressable className='bg-yellow-500 p-4 rounded-lg ml-10 mr-10 mt-3 mb-3'>
           <Text className='text-white text-center'>Open Home Screen</Text>
         </Pressable>
       </Link>
       <Link href="screens/chat/NewConversation" asChild>
-        <Pressable className='bg-yellow-500 p-4 rounded-lg ml-10 mr-10 mt-3 mb-10'>
+        <Pressable className='bg-yellow-500 p-4 rounded-lg ml-10 mr-10 mb-3'>
           <Text className='text-white text-center'>Open New Conversation Screen</Text>
         </Pressable>
       </Link>
       <Link href="screens/onboard" asChild>
-        <Pressable className='bg-red-500 p-4 rounded-lg ml-10 mr-10 mt-3 mb-10'>
+        <Pressable className='bg-red-500 p-4 rounded-lg ml-10 mr-10 mb-3'>
           <Text className='text-white text-center'>Open Onboarding Screen</Text>
         </Pressable>
       </Link>
-
+      <Link href="screens/splashScreen" asChild>
+        <Pressable className='bg-red-500 p-4 rounded-lg ml-10 mr-10'>
+          <Text className='text-white text-center'>Open Splash Screen</Text>
+        </Pressable>
+      </Link>
       
     </View>
   )
