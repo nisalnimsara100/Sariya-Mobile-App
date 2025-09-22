@@ -83,13 +83,15 @@ const IndexScreen = () => {
     { svg: Orangebox, icon: require('../../../src/app/assets/bell.png') },
   ];
 
+  const dotColors = ['#266FEF', '#266FEF', '#266FEF'];
+
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         <View style={{ marginTop: verticalScale(20) }}>
           <Image
             source={require('../../../src/app/assets/icon.png')}
-            style={{ width: boxWidth, height: verticalScale(240) }}
+            style={{ width: boxWidth, height: verticalScale(215), marginTop: verticalScale(60) }}
             resizeMode="contain"
           />
         </View>
@@ -101,7 +103,7 @@ const IndexScreen = () => {
             pagingEnabled
             snapToInterval={screenWidth - horizontalPadding * 2}
             snapToAlignment="center"
-            decelerationRate="normal" // slowed down scroll speed
+            decelerationRate={0.5}
             showsHorizontalScrollIndicator={false}
             keyExtractor={(_, idx) => `feature-${idx}`}
             onScroll={Animated.event(
@@ -113,23 +115,20 @@ const IndexScreen = () => {
           />
         </View>
 
+        {/* Dots */}
         <View style={styles.dotsContainer}>
           {features.map((_, i) => {
-            const inputRange = [
-              (i - 1.5) * screenWidth,
-              i * screenWidth,
-              (i + 1.5) * screenWidth,
-            ];
+            const inputRange = [(i - 0.5) * screenWidth, i * screenWidth, (i + 0.5) * screenWidth];
 
-           const dotWidth = scrollX.interpolate({
+            const width = scrollX.interpolate({
               inputRange,
-              outputRange: [moderateScale(8), moderateScale(25), moderateScale(8)],
+              outputRange: [moderateScale(7), moderateScale(25), moderateScale(7)],
               extrapolate: 'clamp',
             });
 
             const opacity = scrollX.interpolate({
               inputRange,
-              outputRange: [0.3, 1, 0.3],
+              outputRange: [0.5, 1, 0.5],
               extrapolate: 'clamp',
             });
 
@@ -137,10 +136,10 @@ const IndexScreen = () => {
               <Animated.View
                 key={`dot-${i}`}
                 style={{
-                  width: dotWidth,
+                  width,
                   height: verticalScale(8),
                   borderRadius: moderateScale(4),
-                  backgroundColor: '#266FEF',
+                  backgroundColor: dotColors[i],
                   marginHorizontal: scale(2),
                   opacity,
                 }}
@@ -161,8 +160,8 @@ const IndexScreen = () => {
             autoPlay
             loop
             style={{
-              width: moderateScale(70),
-              height: moderateScale(70),
+              width: moderateScale(65),
+              height: moderateScale(65),
               marginBottom: verticalScale(0),
             }}
           />
@@ -204,27 +203,27 @@ const styles = StyleSheet.create({
   },
   infoText: {
     textAlign: 'center',
-    fontSize: responsiveFontSize(17),
+    fontSize: responsiveFontSize(13),
     lineHeight: responsiveFontSize(20),
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'PoppinsRegular',
     color: '#000000',
-    marginBottom: verticalScale(10),
+    marginBottom: verticalScale(-14),
     fontWeight: '400',
-    marginTop: verticalScale(-50),
+    marginTop: verticalScale(-60),
   },
   button: {
     backgroundColor: '#266FEF',
     paddingVertical: verticalScale(15),
-    borderRadius: moderateScale(12),
+    borderRadius: moderateScale(9),
     width: '100%',
     maxWidth: moderateScale(380),
   },
   buttonText: {
     color: '#fff',
     textAlign: 'center',
-    fontSize: responsiveFontSize(18),
+    fontSize: responsiveFontSize(16),
     fontWeight: '500',
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'PoppinsMedium',
   },
 });
 
