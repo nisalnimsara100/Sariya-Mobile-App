@@ -8,10 +8,10 @@ const index = () => {
     <View>
       <Image 
         source={require('~/app/assets/icon.png')} 
-        className="w-64 h-64 mx-auto mt-20"
+        className="w-64 h-64 mx-auto"
         resizeMode="contain"
       />
-      <Text className='text-4xl mt-20 text-center font-poppinsBold'>Screen Buttons</Text>
+      <Text className='text-4xl text-center font-poppinsBold'>Screen Buttons</Text>
       <Link href="screens/welcome" asChild>
         <Pressable className='bg-blue-500 p-4 rounded-lg ml-10 mr-10  mt-5'>
           <Text className='text-white text-center'>Open Welcome Screen</Text>
