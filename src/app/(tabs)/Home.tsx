@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
     borderRadius: moderateScale(9),
     width: '100%',
     maxWidth: moderateScale(380),
-    marginBottom: verticalScale(20),
+    marginBottom: verticalScale(25),
   },
   buttonText: {
     color: '#fff',
