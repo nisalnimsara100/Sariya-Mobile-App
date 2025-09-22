@@ -88,7 +88,7 @@ const IndexScreen = () => {
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-        <View style={{ marginTop: verticalScale(-45), marginBottom: verticalScale(-1) }}>
+        <View style={{ marginTop: verticalScale(-55), marginBottom: verticalScale(-1) }}>
           <Image
             source={require('../../../src/app/assets/icon.png')}
             style={{ width: boxWidth, height: verticalScale(215), marginTop: verticalScale(60) }}
@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
     borderRadius: moderateScale(9),
     width: '100%',
     maxWidth: moderateScale(380),
-    marginBottom: verticalScale(9),
+    marginBottom: verticalScale(15),
   },
   buttonText: {
     color: '#fff',
