@@ -7,15 +7,21 @@ const RegistrationSuccessful = () => {
     const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = useWindowDimensions();
 
     return (
-        <View style={[styles.container, { paddingHorizontal: SCREEN_WIDTH * 0.05 }]}> {/* Adjust padding dynamically */}
+        <View style={[styles.container, { paddingHorizontal: SCREEN_WIDTH * 0.05 }]}>
             <LottieView 
                 source={SuccessAnimation} 
                 autoPlay 
-                loop 
+                loop={true}
                 style={{ width: SCREEN_WIDTH * 0.5, height: SCREEN_HEIGHT * 0.5, marginTop: SCREEN_HEIGHT * -0.2 }} 
+                renderMode="AUTOMATIC"
             />
-            <Text style={[styles.successText, { fontSize: SCREEN_HEIGHT * 0.019, marginTop: SCREEN_HEIGHT * -0.15 }]}>Registration Successful 🎉</Text>
-            <Text style={[styles.subText, { fontSize: SCREEN_HEIGHT * 0.015 }]}>Your child’s ride, secured.</Text>
+            <Text style={[styles.successText, { fontSize: SCREEN_HEIGHT * 0.019, marginTop: SCREEN_HEIGHT * -0.15 }]}>
+                Registration Successful{' '}
+                <Text>🎉</Text>  {/* Separated emoji into its own Text component */}
+            </Text>
+            <Text style={[styles.subText, { fontSize: SCREEN_HEIGHT * 0.015 }]}>
+                Your child&apos;s ride, secured.
+            </Text>
         </View>
     );
 };
