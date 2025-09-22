@@ -83,12 +83,12 @@ const IndexScreen = () => {
     { svg: Orangebox, icon: require('../../../src/app/assets/bell.png') },
   ];
 
-  const dotColors = ['#266FEF', '#266FEF', '#266FEF'];
+  const dotColors = ['#266FEF', '#266FEF', '#266FEF']; 
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-        <View style={{ marginTop: verticalScale(20) }}>
+        <View style={{ marginTop: verticalScale(-45), marginBottom: verticalScale(-1) }}>
           <Image
             source={require('../../../src/app/assets/icon.png')}
             style={{ width: boxWidth, height: verticalScale(215), marginTop: verticalScale(60) }}
@@ -122,7 +122,7 @@ const IndexScreen = () => {
 
             const width = scrollX.interpolate({
               inputRange,
-              outputRange: [moderateScale(7), moderateScale(25), moderateScale(7)],
+              outputRange: [moderateScale(8), moderateScale(25), moderateScale(8)],
               extrapolate: 'clamp',
             });
 
@@ -160,8 +160,8 @@ const IndexScreen = () => {
             autoPlay
             loop
             style={{
-              width: moderateScale(65),
-              height: moderateScale(65),
+              width: moderateScale(70),
+              height: moderateScale(70),
               marginBottom: verticalScale(0),
             }}
           />
@@ -192,14 +192,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: verticalScale(-70),
-    marginBottom: verticalScale(18),
+    marginTop: verticalScale(-15),
+    marginBottom: verticalScale(50),
   },
   bottomContainer: {
     alignItems: 'center',
     paddingHorizontal: scale(20),
     width: '100%',
-    marginBottom: verticalScale(20),
+    marginBottom: verticalScale(105),
   },
   infoText: {
     textAlign: 'center',
@@ -207,9 +207,9 @@ const styles = StyleSheet.create({
     lineHeight: responsiveFontSize(20),
     fontFamily: 'PoppinsRegular',
     color: '#000000',
-    marginBottom: verticalScale(-14),
+    marginBottom: verticalScale(-10),
     fontWeight: '400',
-    marginTop: verticalScale(-60),
+    marginTop: verticalScale(-35),
   },
   button: {
     backgroundColor: '#266FEF',
@@ -217,6 +217,7 @@ const styles = StyleSheet.create({
     borderRadius: moderateScale(9),
     width: '100%',
     maxWidth: moderateScale(380),
+    marginBottom: verticalScale(9),
   },
   buttonText: {
     color: '#fff',
