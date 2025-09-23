@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -7,6 +7,12 @@ import {
   Modal,
   Dimensions,
 } from "react-native";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  interpolate,
+} from "react-native-reanimated";
 
 import Warning from "src/app/assets/warning.svg";
 import Close from "src/app/assets/close.svg";
@@ -29,39 +35,51 @@ const ConfirmDriverModal = ({
   onCancel: () => void;
   onConnect: () => void;
 }) => {
+  const scale = useSharedValue(0);
+  const opacity = useSharedValue(0);
+
+  useEffect(() => {
+    if (visible) {
+      scale.value = withTiming(1, { duration: 300 });
+      opacity.value = withTiming(1, { duration: 300 });
+    } else {
+      scale.value = withTiming(0, { duration: 200 });
+      opacity.value = withTiming(0, { duration: 200 });
+    }
+  }, [visible]);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: interpolate(scale.value, [0, 1], [0.8, 1]) }],
+    opacity: opacity.value,
+  }));
+
   return (
-    <Modal visible={visible} transparent animationType="fade">
+    <Modal visible={visible} transparent animationType="none">
       <View style={styles.overlay}>
-        <View style={styles.container}>
-          
+        <Animated.View style={[styles.container, animatedStyle]}>
           <Pressable style={styles.closeButton} onPress={onCancel}>
             <Close width={14} height={14} />
           </Pressable>
 
-          
           <View style={styles.iconWrapper}>
             <View style={styles.iconSquare}>
               <Warning width={22} height={22} />
             </View>
           </View>
 
-          
           <Text style={styles.title}>Are You Sure?</Text>
 
-          
           <Text style={styles.message}>
             Double check the driver's details{"\n"} before proceeding.
           </Text>
 
-          
           <View style={styles.driverInfo}>
             <Text style={styles.driverLabel}>Driver’s Name:</Text>
             <Text style={styles.driverName}>
-              {driverName || "Nisal Nimsara"}
+              {driverName || "Ashen Widanagamage"}
             </Text>
           </View>
 
-          
           <View style={styles.buttonColumn}>
             <Pressable style={styles.connectButton} onPress={onConnect}>
               <Text style={styles.connectText}>Connect The Driver</Text>
@@ -70,7 +88,7 @@ const ConfirmDriverModal = ({
               <Text style={styles.cancelText}>Cancel</Text>
             </Pressable>
           </View>
-        </View>
+        </Animated.View>
       </View>
     </Modal>
   );
@@ -83,7 +101,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: "rgba(0,0,0,0.2)", 
+    backgroundColor: "rgba(0,0,0,0.2)",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -174,8 +192,8 @@ const styles = StyleSheet.create({
   },
   connectButton: {
     backgroundColor: "#266FEF",
-    paddingVertical: 14,
-    borderRadius: 10,
+    paddingVertical: 10,
+    borderRadius: 13,
     alignItems: "center",
     marginBottom: 12,
   },
@@ -185,24 +203,26 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     fontFamily: "PoppinsMedium",
   },
-  cancelButton: {
-    backgroundColor: "#F8F8F8",
-    paddingVertical: 14,
-    borderRadius: 10,
-    alignItems: "center",
+ cancelButton: {
+  backgroundColor: "#FFFFFF", // pure white for clarity
+  paddingVertical: 10,
+  borderRadius: 13,
+  alignItems: "center",
+  borderWidth: 1,
+  borderColor: "#E0E0E0", // subtle border for definition
 
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.12,
-    shadowRadius: 10,
-    elevation: 2,
-  },
-  cancelText: {
-    color: "#000",
-    fontSize: responsiveFontSize(16),
-    fontWeight: "500",
-    fontFamily: "PoppinsMedium",
-  },
+  shadowColor: "#000",
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.10,
+  shadowRadius: 1,
+  elevation: 2,
+},
+cancelText: {
+  color: "#000",
+  fontSize: responsiveFontSize(16),
+  fontWeight: "500",
+  fontFamily: "PoppinsMedium",
+},
 });
 
 export default ConfirmDriverModal;

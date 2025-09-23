@@ -7,10 +7,11 @@ import {
   Dimensions,
   StyleSheet,
   ScrollView,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import Dashboard2 from "src/app/assets/D2.svg";
-import ConfirmDriverModal from "./ConfirmDriverModal"; // ✅ Step 1: Import modal
+import ConfirmDriverModal from "./ConfirmDriverModal";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
@@ -28,19 +29,22 @@ const SchoolBusDetails = () => {
   const [mobile, setMobile] = useState("");
   const [driverName, setDriverName] = useState("");
   const [vehicleNo, setVehicleNo] = useState("");
-  const [showModal, setShowModal] = useState(false); // ✅ Step 2: Modal state
+  const [showModal, setShowModal] = useState(false);
 
   const handleConfirmPress = () => setShowModal(true);
   const handleConnectDriver = () => {
-    // You can add logic here (e.g., API call)
     setShowModal(false);
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={["top"]}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+    >
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
       >
         <View style={styles.headerContainer}>
           <Text style={styles.title}>School Bus Details</Text>
@@ -48,7 +52,11 @@ const SchoolBusDetails = () => {
         </View>
 
         <View style={styles.illustration}>
-          <Dashboard2 width="100%" height="100%" preserveAspectRatio="xMidYMid meet" />
+          <Dashboard2
+            width="100%"
+            height="100%"
+            preserveAspectRatio="xMidYMid meet"
+          />
         </View>
 
         <View style={styles.form}>
@@ -83,33 +91,36 @@ const SchoolBusDetails = () => {
         </View>
       </ScrollView>
 
-      {/* ✅ Step 3: Render modal */}
       <ConfirmDriverModal
         visible={showModal}
         driverName={driverName}
         onCancel={() => setShowModal(false)}
         onConnect={handleConnectDriver}
       />
-    </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#fff" },
-
-  scrollContent: {
-    minHeight: screenHeight,
-    flexGrow: 1,
-    alignItems: "center",
-    paddingBottom: verticalScale(20),
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
   },
 
-  headerContainer: { alignItems: "center", marginTop: verticalScale(20) },
+  scrollContent: {
+    flexGrow: 1,
+    alignItems: "center",
+    paddingTop: verticalScale(40),
+    paddingBottom: verticalScale(40),
+  },
+
+  headerContainer: { alignItems: "center", marginBottom: verticalScale(0) },
   title: {
     fontSize: responsiveFontSize(18),
     fontWeight: "600",
     color: "#000",
     fontFamily: "PoppinsSemiBold",
+    marginTop: verticalScale(30),
   },
   subtitle: {
     fontSize: responsiveFontSize(14),
@@ -144,7 +155,7 @@ const styles = StyleSheet.create({
     padding: moderateScale(12),
     marginBottom: verticalScale(18),
     fontSize: responsiveFontSize(16),
-    color: "#959595",
+    color: "#000",
     width: "100%",
     fontFamily: "PoppinsRegular",
   },
