@@ -9,9 +9,8 @@ import {
   ScrollView,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-
 import Dashboard2 from "src/app/assets/D2.svg";
+import ConfirmDriverModal from "./ConfirmDriverModal"; // ✅ Step 1: Import modal
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
@@ -29,6 +28,13 @@ const SchoolBusDetails = () => {
   const [mobile, setMobile] = useState("");
   const [driverName, setDriverName] = useState("");
   const [vehicleNo, setVehicleNo] = useState("");
+  const [showModal, setShowModal] = useState(false); // ✅ Step 2: Modal state
+
+  const handleConfirmPress = () => setShowModal(true);
+  const handleConnectDriver = () => {
+    // You can add logic here (e.g., API call)
+    setShowModal(false);
+  };
 
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
@@ -36,18 +42,15 @@ const SchoolBusDetails = () => {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        
         <View style={styles.headerContainer}>
           <Text style={styles.title}>School Bus Details</Text>
           <Text style={styles.subtitle}>Confirm your school bus details</Text>
         </View>
 
-        
         <View style={styles.illustration}>
           <Dashboard2 width="100%" height="100%" preserveAspectRatio="xMidYMid meet" />
         </View>
 
-        
         <View style={styles.form}>
           <Text style={styles.label}>Driver’s Mobile Number*</Text>
           <TextInput
@@ -74,12 +77,19 @@ const SchoolBusDetails = () => {
             onChangeText={setVehicleNo}
           />
 
-          
-          <Pressable style={styles.confirmButton}>
+          <Pressable style={styles.confirmButton} onPress={handleConfirmPress}>
             <Text style={styles.confirmText}>Confirm</Text>
           </Pressable>
         </View>
       </ScrollView>
+
+      {/* ✅ Step 3: Render modal */}
+      <ConfirmDriverModal
+        visible={showModal}
+        driverName={driverName}
+        onCancel={() => setShowModal(false)}
+        onConnect={handleConnectDriver}
+      />
     </SafeAreaView>
   );
 };
