@@ -13,76 +13,40 @@ import {
   Dimensions,
 } from 'react-native';
 
-// Get responsive dimensions and font scaling
+// Responsive utilities
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
-const isTablet = screenWidth > 600;
-const isLandscape = screenWidth > screenHeight;
 
-// Responsive scaling functions
-const scale = (size: number): number => (screenWidth / 375) * size; // 375 is base width (iPhone 6/7/8)
-const verticalScale = (size: number): number => (screenHeight / 812) * size; // 812 is base height
-const moderateScale = (size: number, factor: number = 0.5): number =>
+const scale = (size) => (screenWidth / 375) * size;
+const verticalScale = (size) => (screenHeight / 812) * size;
+const moderateScale = (size, factor = 0.5) =>
   size + (scale(size) - size) * factor;
 
-// Responsive font size
-const responsiveFontSize = (size: number): number => {
+const responsiveFontSize = (size) => {
   const newSize = size * (screenWidth / 375);
-  return Math.max(newSize, size * 0.8); // Ensure minimum readability
+  return Math.max(newSize, size * 0.8);
 };
 
 const ChatScreen = () => {
   const [inputFocused, setInputFocused] = useState(false);
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([
-    {
-      id: '1',
-      text: "Hey Nisal Nimsara?",
-      isSent: true,
-      time: "11:05 PM"
-    },
-    {
-      id: '2',
-      text: "I'm doing great, thanks for asking!",
-      isSent: false,
-      time: "11:06 PM"
-    },
-    {
-      id: '3',
-      text: "That's good to hear! I was wondering if you'd like to grab coffee sometime this week? I found a nice new place downtown.",
-      isSent: true,
-      time: "11:07 PM"
-    },
-    {
-      id: '4',
-      text: "Absolutely! I'd love to. How about Thursday afternoon? I'm free after 2 PM. The new place sounds interesting!",
-      isSent: false,
-      time: "11:08 PM"
-    },
-    {
-      id: '5',
-      text: "Hii i'm nethmi wijesinghe",
-      isSent: false,
-      time: "11:08 PM"
-    },
-    {
-      id: '6',
-      text: "👍",
-      isSent: false,
-      time: "11:10 PM"
-    }
+    { id: '1', text: "Hey Nisal Nimsara?", isSent: true, time: "11:05 PM" },
+    { id: '2', text: "I'm doing great, thanks for asking!", isSent: false, time: "11:06 PM" },
+    { id: '3', text: "That's good to hear! I was wondering if you'd like to grab coffee sometime this week? I found a nice new place downtown.", isSent: true, time: "11:07 PM" },
+    { id: '4', text: "Absolutely! I'd love to. How about Thursday afternoon? I'm free after 2 PM. The new place sounds interesting!", isSent: false, time: "11:08 PM" },
+    { id: '5', text: "Hii i'm nethmi wijesinghe", isSent: false, time: "11:08 PM" },
+    { id: '6', text: "👍", isSent: false, time: "11:10 PM" },
   ]);
 
   const scrollViewRef = useRef(null);
-  const [dimensions, setDimensions] = useState(Dimensions.get('window'));
 
   useEffect(() => {
     const subscription = Dimensions.addEventListener('change', ({ window }) => {
-      setDimensions(window);
+      // Optional handle dimension changes here
     });
     return () => subscription?.remove();
   }, []);
 
-  // Auto-scroll to bottom when new messages are added
   useEffect(() => {
     if (scrollViewRef.current) {
       scrollViewRef.current.scrollToEnd({ animated: true });
@@ -95,17 +59,12 @@ const ChatScreen = () => {
         id: Date.now().toString(),
         text: message.trim(),
         isSent: true,
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       };
-      
-      setMessages(prevMessages => [...prevMessages, newMessage]);
+      setMessages(prev => [...prev, newMessage]);
       setMessage('');
-      
-      // Scroll to bottom after a short delay to ensure the message is rendered
       setTimeout(() => {
-        if (scrollViewRef.current) {
-          scrollViewRef.current.scrollToEnd({ animated: true });
-        }
+        scrollViewRef.current?.scrollToEnd({ animated: true });
       }, 100);
     }
   };
@@ -122,18 +81,17 @@ const ChatScreen = () => {
           </View>
         </View>
       );
-    } else {
-      return (
-        <View key={msg.id} style={styles.receivedMessageContainer}>
-          <View style={styles.receivedMessageWrapper}>
-            <View style={styles.receivedBubble}>
-              <Text style={styles.receivedText}>{msg.text}</Text>
-            </View>
-            <Text style={styles.receivedTimeBelow}>{msg.time}</Text>
-          </View>
-        </View>
-      );
     }
+    return (
+      <View key={msg.id} style={styles.receivedMessageContainer}>
+        <View style={styles.receivedMessageWrapper}>
+          <View style={styles.receivedBubble}>
+            <Text style={styles.receivedText}>{msg.text}</Text>
+          </View>
+          <Text style={styles.receivedTimeBelow}>{msg.time}</Text>
+        </View>
+      </View>
+    );
   };
 
   return (
@@ -145,11 +103,10 @@ const ChatScreen = () => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
       >
-        {/* Header */}
         <View style={styles.header}>
           <View style={styles.headerLeft}>
             <View style={styles.profileImageContainer}>
-              <Text style={styles.profileInitial}></Text>
+              <Text style={styles.profileInitial}>N</Text>
             </View>
             <View style={styles.headerText}>
               <Text style={styles.userName}>Nisal Nimsara</Text>
@@ -161,12 +118,10 @@ const ChatScreen = () => {
           </TouchableOpacity>
         </View>
 
-        {/* Date Header */}
         <View style={styles.dateContainer}>
           <Text style={styles.dateText}>Sun, Aug 26</Text>
         </View>
 
-        {/* Chat Messages */}
         <ScrollView
           ref={scrollViewRef}
           style={styles.chatContainer}
@@ -178,7 +133,6 @@ const ChatScreen = () => {
           {messages.map(renderMessage)}
         </ScrollView>
 
-        {/* Message Input Container */}
         <View style={styles.inputContainer}>
           <View style={styles.inputWrapper}>
             <TextInput
@@ -197,10 +151,7 @@ const ChatScreen = () => {
             <View style={styles.sendButtonWrapper}>
               {(inputFocused || message) && (
                 <TouchableOpacity
-                  style={[
-                    styles.sendButton,
-                    !message && styles.sendButtonDisabled,
-                  ]}
+                  style={[styles.sendButton, !message && styles.sendButtonDisabled]}
                   onPress={handleSend}
                   disabled={!message}
                 >
@@ -215,7 +166,6 @@ const ChatScreen = () => {
   );
 };
 
-// Responsive Styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -291,7 +241,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: scale(16),
     paddingVertical: verticalScale(8),
   },
-  // Sent message container - ensures consistent right alignment
   sentMessageContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
@@ -302,7 +251,6 @@ const styles = StyleSheet.create({
     maxWidth: '90%',
     alignItems: 'flex-end',
   },
-  // Received message container - ensures consistent left alignment
   receivedMessageContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
@@ -344,7 +292,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
   },
   sentBubble: {
-    backgroundColor: '#297BE6',
+    backgroundColor: '#266FEF',
     paddingHorizontal: scale(17),
     paddingVertical: verticalScale(7),
     borderRadius: moderateScale(20),
