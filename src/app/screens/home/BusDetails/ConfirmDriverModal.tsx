@@ -216,24 +216,26 @@ const styles = StyleSheet.create({
     fontFamily: "PoppinsMedium",
   },
   cancelButton: {
-    backgroundColor: "#FFFFFF",
-    paddingVertical: 10,
-    borderRadius: 13,
-    alignItems: "center",
-    borderWidth: 1,
-    borderColor: "#E0E0E0",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 1,
-    elevation: 2,
-  },
-  cancelText: {
-    color: "#000",
-    fontSize: responsiveFontSize(16),
-    fontWeight: "500",
-    fontFamily: "PoppinsMedium",
-  },
+  backgroundColor: "#FFFFFF",
+  paddingVertical: 9,
+  borderRadius: 13,
+  alignItems: "center",
+  borderWidth: 1,
+  borderColor: "#E0E0E0",
+  shadowColor: "#000",
+  shadowOffset: { width: 0, height: 0 }, // shadow spreads evenly
+  shadowOpacity: 0.5, // stronger visibility
+  shadowRadius: 6, // more blur to wrap entire button
+  elevation: 2, // Android equivalent
+},
+cancelText: {
+  color: "#000",
+  fontSize: responsiveFontSize(16),
+  fontWeight: "500",
+  fontFamily: "PoppinsMedium",
+},
+
+
 });
 
 export default ConfirmDriverModal;

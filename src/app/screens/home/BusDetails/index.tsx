@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
 
   confirmButton: {
     backgroundColor: "#266FEF",
-    paddingVertical: verticalScale(14),
+    paddingVertical: verticalScale(12),
     borderRadius: moderateScale(8),
     alignItems: "center",
     marginTop: verticalScale(16),
