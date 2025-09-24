@@ -1,27 +1,29 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {
+  SafeAreaView, // Replace SafeAreaFrameContext
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
   View,
   Text,
   StyleSheet,
-  SafeAreaView,
-  TextInput,
-  TouchableOpacity,
-  ScrollView,
   StatusBar,
-  KeyboardAvoidingView,
-  Platform,
   Dimensions,
+  Keyboard,
+  Platform,
 } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 
 // Responsive utilities
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
-const scale = (size) => (screenWidth / 375) * size;
-const verticalScale = (size) => (screenHeight / 812) * size;
-const moderateScale = (size, factor = 0.5) =>
+const scale = (size: number) => (screenWidth / 375) * size;
+const verticalScale = (size: number) => (screenHeight / 812) * size;
+const moderateScale = (size: number, factor = 0.5) =>
   size + (scale(size) - size) * factor;
-
-const responsiveFontSize = (size) => {
+const responsiveFontSize = (size: number) => {
   const newSize = size * (screenWidth / 375);
   return Math.max(newSize, size * 0.8);
 };
@@ -38,7 +40,8 @@ const ChatScreen = () => {
     { id: '6', text: "👍", isSent: false, time: "11:10 PM" },
   ]);
 
-  const scrollViewRef = useRef(null);
+  const scrollViewRef = useRef<ScrollView | null>(null); // Correct type
+  const isFocused = useIsFocused(); // Check if the screen is focused
 
   useEffect(() => {
     const subscription = Dimensions.addEventListener('change', ({ window }) => {
@@ -52,6 +55,13 @@ const ChatScreen = () => {
       scrollViewRef.current.scrollToEnd({ animated: true });
     }
   }, [messages]);
+
+  useEffect(() => {
+    if (isFocused) {
+      // Ensure the keyboard is ready to show when the screen is focused
+      Keyboard.dismiss();
+    }
+  }, [isFocused]);
 
   const handleSend = () => {
     if (message.trim()) {
@@ -69,7 +79,7 @@ const ChatScreen = () => {
     }
   };
 
-  const renderMessage = (msg) => {
+  const renderMessage = (msg: { id: string; text: string; isSent: boolean; time: string }) => {
     if (msg.isSent) {
       return (
         <View key={msg.id} style={styles.sentMessageContainer}>
@@ -95,72 +105,76 @@ const ChatScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container}> {/* Replace SafeAreaFrameContext */}
       <StatusBar backgroundColor="#fff" barStyle="dark-content" />
 
       <KeyboardAvoidingView
         style={styles.keyboardAvoid}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 20 : 30} // Further reduced offset
       >
-        <View style={styles.header}>
-          <View style={styles.headerLeft}>
-            <View style={styles.profileImageContainer}>
-              <Text style={styles.profileInitial}>N</Text>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={{ flex: 1 }}>
+            <View style={styles.header}>
+              <View style={styles.headerLeft}>
+                <View style={styles.profileImageContainer}>
+                  <Text style={styles.profileInitial}>N</Text>
+                </View>
+                <View style={styles.headerText}>
+                  <Text style={styles.userName}>Nisal Nimsara</Text>
+                  <Text style={styles.status}>CBD-2207</Text>
+                </View>
+              </View>
+              <TouchableOpacity style={styles.phoneButton}>
+                <Text style={styles.phoneIcon}>📞</Text>
+              </TouchableOpacity>
             </View>
-            <View style={styles.headerText}>
-              <Text style={styles.userName}>Nisal Nimsara</Text>
-              <Text style={styles.status}>CBD-2207</Text>
+
+            <ScrollView
+              ref={scrollViewRef}
+              style={styles.chatContainer}
+              showsVerticalScrollIndicator={false}
+              keyboardShouldPersistTaps="handled"
+              contentContainerStyle={styles.scrollContent}
+              onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: true })}
+              scrollEnabled={true}
+            >
+              <View style={styles.dateContainer}> {/* Moved inside ScrollView */}
+                <Text style={styles.dateText}>Sun, Aug 26</Text>
+              </View>
+              {messages.map(renderMessage)}
+            </ScrollView>
+
+            <View style={styles.inputContainer}> {/* Fixed to bottom */}
+              <View style={styles.inputWrapper}>
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="Message"
+                  placeholderTextColor="#999"
+                  value={message}
+                  onChangeText={setMessage}
+                  onFocus={() => setInputFocused(true)}
+                  onBlur={() => setInputFocused(false)}
+                  multiline
+                  maxLength={500}
+                  onSubmitEditing={handleSend}
+                  returnKeyType="send"
+                />
+                <View style={styles.sendButtonWrapper}>
+                  {(inputFocused || message) && (
+                    <TouchableOpacity
+                      style={[styles.sendButton, !message && styles.sendButtonDisabled]}
+                      onPress={handleSend}
+                      disabled={!message}
+                    >
+                      <Text style={styles.sendIcon}>↑</Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
+              </View>
             </View>
           </View>
-          <TouchableOpacity style={styles.phoneButton}>
-            <Text style={styles.phoneIcon}>📞</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.dateContainer}>
-          <Text style={styles.dateText}>Sun, Aug 26</Text>
-        </View>
-
-        <ScrollView
-          ref={scrollViewRef}
-          style={styles.chatContainer}
-          showsVerticalScrollIndicator={false}
-          keyboardShouldPersistTaps="handled"
-          contentContainerStyle={styles.scrollContent}
-          onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: true })}
-        >
-          {messages.map(renderMessage)}
-        </ScrollView>
-
-        <View style={styles.inputContainer}>
-          <View style={styles.inputWrapper}>
-            <TextInput
-              style={styles.textInput}
-              placeholder="Message"
-              placeholderTextColor="#999"
-              value={message}
-              onChangeText={setMessage}
-              onFocus={() => setInputFocused(true)}
-              onBlur={() => setInputFocused(false)}
-              multiline
-              maxLength={500}
-              onSubmitEditing={handleSend}
-              returnKeyType="send"
-            />
-            <View style={styles.sendButtonWrapper}>
-              {(inputFocused || message) && (
-                <TouchableOpacity
-                  style={[styles.sendButton, !message && styles.sendButtonDisabled]}
-                  onPress={handleSend}
-                  disabled={!message}
-                >
-                  <Text style={styles.sendIcon}>↑</Text>
-                </TouchableOpacity>
-              )}
-            </View>
-          </View>
-        </View>
+        </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -169,8 +183,9 @@ const ChatScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
-    paddingBottom: verticalScale(45),
+    backgroundColor: '#fff',
+    paddingTop: Platform.OS === 'android' ? verticalScale(20) : 0, // Safe area for status bar
+    paddingBottom: verticalScale(20), // Safe area for navigation bar
   },
   keyboardAvoid: {
     flex: 1,
@@ -184,6 +199,7 @@ const styles = StyleSheet.create({
     paddingVertical: verticalScale(20),
     borderBottomWidth: 1,
     borderBottomColor: '#f0f0f0',
+    paddingBottom: 15,
   },
   headerLeft: {
     flexDirection: 'row',
@@ -223,19 +239,20 @@ const styles = StyleSheet.create({
     fontSize: responsiveFontSize(21),
   },
   dateContainer: {
-    alignItems: 'center',
+    alignSelf: 'center',
     marginVertical: verticalScale(8),
-  },
-  dateText: {
     backgroundColor: '#ededed',
     paddingHorizontal: scale(18),
     paddingVertical: verticalScale(5),
     borderRadius: moderateScale(13),
+  },
+  dateText: {
     fontSize: responsiveFontSize(13),
     color: '#666',
   },
   chatContainer: {
     flex: 1,
+    backgroundColor: '#f0f0f0',
   },
   scrollContent: {
     paddingHorizontal: scale(16),
@@ -316,7 +333,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: '#ececec',
     paddingHorizontal: scale(16),
-    paddingVertical: verticalScale(10),
+    paddingVertical: verticalScale(8),
   },
   inputWrapper: {
     flexDirection: 'row',
