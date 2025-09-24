@@ -12,6 +12,7 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
   interpolate,
+  Easing,
 } from "react-native-reanimated";
 
 import Warning from "src/app/assets/warning.svg";
@@ -40,21 +41,38 @@ const ConfirmDriverModal = ({
 
   useEffect(() => {
     if (visible) {
-      scale.value = withTiming(1, { duration: 300 });
-      opacity.value = withTiming(1, { duration: 300 });
+      scale.value = withTiming(1, {
+        duration: 220,
+        easing: Easing.out(Easing.ease),
+      });
+      opacity.value = withTiming(1, {
+        duration: 220,
+        easing: Easing.out(Easing.ease),
+      });
     } else {
-      scale.value = withTiming(0, { duration: 200 });
-      opacity.value = withTiming(0, { duration: 200 });
+      opacity.value = withTiming(0, {
+        duration: 180,
+        easing: Easing.in(Easing.ease),
+      });
+      scale.value = withTiming(0, {
+        duration: 180,
+        easing: Easing.in(Easing.ease),
+      });
     }
   }, [visible]);
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: interpolate(scale.value, [0, 1], [0.8, 1]) }],
-    opacity: opacity.value,
-  }));
+  const animatedStyle = useAnimatedStyle(() => {
+    const translateY = interpolate(scale.value, [0, 1], [20, 0]);
+    const scaleValue = interpolate(scale.value, [0, 1], [0.95, 1]);
+
+    return {
+      transform: [{ scale: scaleValue }, { translateY }],
+      opacity: opacity.value,
+    };
+  });
 
   return (
-    <Modal visible={visible} transparent animationType="none">
+    <Modal visible={visible} transparent animationType="none" statusBarTranslucent>
       <View style={styles.overlay}>
         <Animated.View style={[styles.container, animatedStyle]}>
           <Pressable style={styles.closeButton} onPress={onCancel}>
@@ -96,12 +114,8 @@ const ConfirmDriverModal = ({
 
 const styles = StyleSheet.create({
   overlay: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: "rgba(0,0,0,0.2)",
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0,0,0,0.4)",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -113,7 +127,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     alignItems: "center",
     position: "relative",
-
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.12,
@@ -132,7 +145,6 @@ const styles = StyleSheet.create({
     borderColor: "#E0E0E0",
     borderWidth: 1,
     borderRadius: 7,
-
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -203,26 +215,25 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     fontFamily: "PoppinsMedium",
   },
- cancelButton: {
-  backgroundColor: "#FFFFFF", // pure white for clarity
-  paddingVertical: 10,
-  borderRadius: 13,
-  alignItems: "center",
-  borderWidth: 1,
-  borderColor: "#E0E0E0", // subtle border for definition
-
-  shadowColor: "#000",
-  shadowOffset: { width: 0, height: 2 },
-  shadowOpacity: 0.10,
-  shadowRadius: 1,
-  elevation: 2,
-},
-cancelText: {
-  color: "#000",
-  fontSize: responsiveFontSize(16),
-  fontWeight: "500",
-  fontFamily: "PoppinsMedium",
-},
+  cancelButton: {
+    backgroundColor: "#FFFFFF",
+    paddingVertical: 10,
+    borderRadius: 13,
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#E0E0E0",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 1,
+    elevation: 2,
+  },
+  cancelText: {
+    color: "#000",
+    fontSize: responsiveFontSize(16),
+    fontWeight: "500",
+    fontFamily: "PoppinsMedium",
+  },
 });
 
 export default ConfirmDriverModal;
