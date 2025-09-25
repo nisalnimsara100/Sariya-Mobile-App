@@ -13,9 +13,9 @@ import { Link } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import LottieView from 'lottie-react-native';
 
-import Bluebox from 'src/app/assets/bluePlaceholder.svg';
-import Redbox from 'src/app/assets/Communication Hub.svg';
-import Orangebox from 'src/app/assets/Alerts & Notifications.svg';
+import Bluebox from 'src/app/assets/Realtime Track Stack D.svg';
+import Redbox from 'src/app/assets/Communication Hub D.svg';
+import Orangebox from 'src/app/assets/Alerts & Notifications D.svg';
 import DownAnimation from '../assets/lotties/Arrows.json';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
@@ -80,7 +80,7 @@ const IndexScreen = () => {
   const features = [
     { svg: Bluebox, icon: require('../../../src/app/assets/drop.png') },
     { svg: Redbox, icon: require('../../../src/app/assets/massage.png') },
-    { svg: Orangebox, icon: require('../../../src/app/assets/bell.png') },
+    { svg: Orangebox, icon: require('src/app/assets/Tri;p logo.png') },
   ];
 
   const dotColors = ['#266FEF', '#266FEF', '#266FEF']; 
@@ -150,9 +150,7 @@ const IndexScreen = () => {
 
         <View style={styles.bottomContainer}>
           <Text style={styles.infoText}>
-            Add and verify the driver’s mobile number to{'\n'}
-            activate full app features.{'\n'}
-            Use the button below to complete setup.
+            Add and verify your assigned bus number to{'\n'} activate the console. Use the button below to{'\n'} complete your profile setup.
           </Text>
 
           <LottieView

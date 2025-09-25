@@ -92,15 +92,15 @@ const ConfirmDriverModal = ({
           </Text>
 
           <View style={styles.driverInfo}>
-            <Text style={styles.driverLabel}>Driver’s Name:</Text>
+            <Text style={styles.driverLabel}>Vehicle Number:</Text>
             <Text style={styles.driverName}>
-              {driverName || "Ashen Widanagamage"}
+              {driverName || "NA-5050"}
             </Text>
           </View>
 
           <View style={styles.buttonColumn}>
             <Pressable style={styles.connectButton} onPress={onConnect}>
-              <Text style={styles.connectText}>Connect The Driver</Text>
+              <Text style={styles.connectText}>Confirm & Go Online</Text>
             </Pressable>
             <Pressable style={styles.cancelButton} onPress={onCancel}>
               <Text style={styles.cancelText}>Cancel</Text>

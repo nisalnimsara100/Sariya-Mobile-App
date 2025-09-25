@@ -10,7 +10,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
-import Dashboard2 from "src/app/assets/D2.svg";
+import Dashboard2 from "src/app/assets/verify your bus.svg";
 import ConfirmDriverModal from "./ConfirmDriverModal";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
@@ -47,8 +47,8 @@ const SchoolBusDetails = () => {
         keyboardShouldPersistTaps="handled"
       >
         <View style={styles.headerContainer}>
-          <Text style={styles.title}>School Bus Details</Text>
-          <Text style={styles.subtitle}>Confirm your school bus details</Text>
+          <Text style={styles.title}>Verify Your Bus</Text>
+          <Text style={styles.subtitle}>Confirm your bus details</Text>
         </View>
 
         <View style={styles.illustration}>
@@ -60,7 +60,7 @@ const SchoolBusDetails = () => {
         </View>
 
         <View style={styles.form}>
-          <Text style={styles.label}>Driver’s Mobile Number*</Text>
+          <Text style={styles.label}>Your Mobile Number*</Text>
           <TextInput
             style={styles.input}
             placeholder="+94 70 XXX XXXX"
@@ -69,7 +69,7 @@ const SchoolBusDetails = () => {
             keyboardType="phone-pad"
           />
 
-          <Text style={styles.label}>Driver’s Name</Text>
+          <Text style={styles.label}>Your Name</Text>
           <TextInput
             style={styles.input}
             placeholder="This field will be auto complete"
