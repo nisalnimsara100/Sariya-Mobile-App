@@ -10,7 +10,7 @@ import {
 import Nav1 from '../assets/icons/chatss/Noti1.svg';
 import Nav2 from '../assets/icons/chatss/Noti2.svg';
 
-// Responsive scale functions from Chat.tsx
+// Responsive scale utilities (same base as your Chat.tsx)
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 const scale = (size: number) => (screenWidth / 375) * size;
 const verticalScale = (size: number) => (screenHeight / 812) * size;
@@ -23,7 +23,7 @@ interface NotificationItemType {
   icon: ReactElement;
   message: string;
   time: string;
-  type: 'Normal' | 'Alert' | 'Emergency'; // message type for filtering
+  type: 'Normal' | 'Alert' | 'Emergency'; // for filtering tabs
 }
 
 interface NotificationSectionType {
@@ -31,7 +31,6 @@ interface NotificationSectionType {
   items: NotificationItemType[];
 }
 
-// Full unfiltered data including type
 const allNotifications: NotificationSectionType[] = [
   {
     day: 'Today',
@@ -69,23 +68,19 @@ const allNotifications: NotificationSectionType[] = [
   },
 ];
 
-interface NotificationSectionHeaderProps {
-  title: string;
-}
+const Tabs = [
+  { label: 'Normal', color: '#236CFF' },
+  { label: 'Alert', color: '#FF9137' },
+  { label: 'Emergency', color: '#FF3939' },
+];
 
-const NotificationSectionHeader: React.FC<NotificationSectionHeaderProps> = ({
-  title,
-}) => (
+const NotificationSectionHeader = ({ title }: { title: string }) => (
   <View style={styles.sectionContainer}>
     <Text style={styles.sectionText}>{title}</Text>
   </View>
 );
 
-interface NotificationItemProps {
-  item: NotificationItemType;
-}
-
-const NotificationItem: React.FC<NotificationItemProps> = ({ item }) => (
+const NotificationItem = ({ item }: { item: NotificationItemType }) => (
   <View style={styles.notificationItemContainer}>
     <View style={styles.iconWrapper}>{item.icon}</View>
     <View style={styles.messageWrapper}>
@@ -95,30 +90,23 @@ const NotificationItem: React.FC<NotificationItemProps> = ({ item }) => (
   </View>
 );
 
-const Tabs = [
-  { label: 'Normal', color: '#236CFF' },
-  { label: 'Alert', color: '#FF9137' },
-  { label: 'Emergency', color: '#FF3939' },
-];
-
 const Notifications = () => {
-  const [activeTab, setActiveTab] = useState<'Normal' | 'Alert' | 'Emergency'>('Normal');
+  const [activeTab, setActiveTab] = useState<'Normal' | 'Alert' | 'Emergency'>(
+    'Normal'
+  );
 
-  // Filter notifications based on activeTab
-  // Alert and Emergency show only Normal messages (single message example)
-  const filteredNotifications: NotificationSectionType[] = allNotifications.map(
-    (section) => {
-      // If Normal tab, show all items
+  // Filter notifications to show all on Normal
+  // For Alert and Emergency, show only Normal messages (one message)
+  const filteredNotifications: NotificationSectionType[] =
+    allNotifications.map((section) => {
       if (activeTab === 'Normal') {
         return section;
       }
-      // Otherwise, show only items of type 'Normal' in all sections
       return {
         day: section.day,
         items: section.items.filter((item) => item.type === 'Normal'),
       };
-    }
-  );
+    });
 
   return (
     <View style={styles.container}>
@@ -132,7 +120,7 @@ const Notifications = () => {
               { backgroundColor: color },
               activeTab === label && styles.activeTabButton,
             ]}
-            onPress={() => setActiveTab(label as 'Normal' | 'Alert' | 'Emergency')}
+            onPress={() => setActiveTab(label as any)}
           >
             <Text style={styles.tabText}>{label}</Text>
           </TouchableOpacity>
@@ -154,10 +142,7 @@ const Notifications = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-  },
+  container: { flex: 1, backgroundColor: 'white' },
   tabsContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
@@ -181,12 +166,8 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: responsiveFontSize(13),
   },
-  scrollContainer: {
-    paddingHorizontal: scale(0),
-  },
-  sectionWrapper: {
-    marginBottom: verticalScale(16),
-  },
+  scrollContainer: { paddingHorizontal: 0 },
+  sectionWrapper: { marginBottom: verticalScale(16) },
   sectionContainer: {
     marginLeft: scale(16),
     marginBottom: verticalScale(10),
@@ -214,9 +195,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: scale(12),
   },
-  messageWrapper: {
-    flex: 1,
-  },
+  messageWrapper: { flex: 1 },
   messageText: {
     fontFamily: 'poppins-regular',
     color: '#454545',
