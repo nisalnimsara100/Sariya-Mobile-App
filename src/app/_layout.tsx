@@ -16,11 +16,9 @@ export default function RootLayout() {
     <Stack
       initialRouteName="index"
       screenOptions={{
-        headerShown: false,                
-        contentStyle: { backgroundColor: '#ffffff' }, 
+        headerShown: false,
+        contentStyle: { backgroundColor: '#ffffff' },
       }}
-    >
-      {/* <Stack.Screen name="(tabs)" /> */}
-    </Stack>
+    />
   )
 }
